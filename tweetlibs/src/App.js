@@ -2,6 +2,10 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+//importing bootstrap elements
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
+
 function App() {
   return (
     <div className="App">
