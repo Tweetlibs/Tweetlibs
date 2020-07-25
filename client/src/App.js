@@ -1,5 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from './components/pages/Login';
 import './App.css';
 
 //importing bootstrap elements
@@ -8,22 +9,12 @@ import Row from 'react-bootstrap/Row'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!!
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Container>
+        <Route path="/login" component={Login} />
+      </Container>
+      
+    </Router>
   );
 }
 
