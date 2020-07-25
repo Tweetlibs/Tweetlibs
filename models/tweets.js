@@ -20,3 +20,7 @@ var TweetsSchema = new Schema ({
     require: true
   }
 })
+
+const TweeetSchema = mongoose.model('TweeetSchema', TweeetSchema);
+
+module.export = TweeetSchema;
