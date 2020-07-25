@@ -15,10 +15,10 @@ class Login extends Component {
 	render() {
 		return (
 			<Tab.Container id="left-tabs-example" defaultActiveKey="register">
-				<Card>
-						<Col sm={3}>
-							<Nav variant="pills">
-								<Nav.Item>
+        <Card className="m-5">
+						<Col>
+							<Nav variant="pills nav-fill m-4" >
+								<Nav.Item >
 									<Nav.Link eventKey="register">Register</Nav.Link>
 								</Nav.Item>
 								<Nav.Item>
@@ -26,8 +26,8 @@ class Login extends Component {
 								</Nav.Item>
 							</Nav>
 						</Col>
-						<Col sm={9}>
-							<Tab.Content>
+						<Col >
+							<Tab.Content className='m-3'>
 								<Tab.Pane eventKey="register">
 									<Form.Group>
 										<Form.Label>User Name</Form.Label>
