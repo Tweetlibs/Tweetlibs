@@ -1,6 +1,11 @@
 //requiring models
 var db = require('../models');
 
-module.exports = function(app){
-//api routes go here
+module.exports = function(app) {
+
+  app.get('/get-tweets', (req, res) => {
+
+
+    res.send('hi');
+  })
 }
