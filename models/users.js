@@ -33,3 +33,7 @@ var UsersSchema = new Schema ({
     require: true
   }
 })
+
+const UsersSchema = mongoose.model('UsersSchema', UsersSchema);
+
+module.export = UsersSchema;

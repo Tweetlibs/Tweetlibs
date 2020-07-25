@@ -20,3 +20,7 @@ var CreatedSchema = new Schema ({
     require: true
   }
 })
+
+const CreatedSchema = mongoose.model('CreatedSchema', CreatedSchema);
+
+module.export = CreatedSchema;
