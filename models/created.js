@@ -1,26 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-var CreatedSchema = new Schema ({
+var CreatedSchema = new Schema({
   user_id: {
     type: String,
-    require: true
+    require: true,
   },
   tweet_id: {
     type: String,
-    require: true
+    require: true,
   },
   new_text: {
     type: String,
-    require: true
+    require: true,
   },
   saved: {
     type: Boolean,
-    require: true
-  }
-})
+    require: true,
+  },
+});
 
-const CreatedSchema = mongoose.model('CreatedSchema', CreatedSchema);
+const Created = mongoose.model("Created", CreatedSchema);
 
-module.export = CreatedSchema;
+module.export = Created;
