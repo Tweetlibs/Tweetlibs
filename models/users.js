@@ -1,22 +1,21 @@
-const mongoose = require('mongoose');
-const { stringify } = require('querystring');
+const mongoose = require("mongoose");
 
+// Save a reference to the Schema constructor
 const Schema = mongoose.Schema;
 
-var UsersSchema = new Schema ({
-  first_name: {
+// Using the Schema constructor, create a new UserSchema object
+// This is similar to a Sequelize model
+const UsersSchema = new Schema({
+  // `title` is required and of type String
+  firstName: {
     type: String,
     require: true
   },
-  last_name: {
+  lastName: {
     type: String,
     require: true
   },
   email: {
-    type: String,
-    require: true
-  },
-  user_name: {
     type: String,
     require: true
   },
@@ -26,14 +25,18 @@ var UsersSchema = new Schema ({
   },
   active: {
     type: Boolean,
-    require: true
+    require: true,
+    default: false
   },
   of_age: {
     type: Boolean,
-    require: true
+    require: true,
+    default: false
   }
-})
+});
 
-const UsersSchema = mongoose.model('UsersSchema', UsersSchema);
+// This creates our model from the above schema, using mongoose's model method
+const Users = mongoose.model("Users", UsersSchema);
 
-module.export = UsersSchema;
+// Export the Article model
+module.exports = Users;
