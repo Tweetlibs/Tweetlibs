@@ -1,8 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
+require('dotenv').config()
 
 //port for environment
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 5000;
 
 //initialize express server
 var app = express();
@@ -12,11 +13,11 @@ var app = express();
 // mongoose.connect(MONGODB_URI);
 
 //route folders - uncomment to use
-// require('./routes/apiRoutes.js')(app);
+require('./routes/apiRoutes.js')(app);
 // require('./routes/htmlRoutes.js')(app);
 
 //parser
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //making public a static folder
