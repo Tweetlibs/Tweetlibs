@@ -1,36 +1,61 @@
 //requiring models
 var db = require("../models");
+var bcrypt = require("bcryptjs");
+var passport = require("passport")
 const axios = require('axios');
 const madLibber = require('madLibber')
 const movieKey = process.env.REACT_APP_OMDB_KEY;
 
-// var Twit = require("twit")
-// const twitterKey = process.env.REACT_APP_TWITTER_APIKEY;
-// const secretTwitterKey = process.env.REACT_APP_TWITTER_SECRETKEY;
-// const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-// const accessTokenSecret = process.env.REACT_APP_ACCESS_TOKEN_SECRET;
+module.exports = function (app) {
+//handle register
+  app.post("/register", (req, res) => {
+      const errors = []
+      const {firstName, lastName, email, password1, password2} = req.body;
 
-// var T = new Twit({
-//   consumer_key: twitterKey,
-//   consumer_secret: secretTwitterKey,
-//   access_token: accessToken,
-//   access_token_secret: accessTokenSecret,
-// });
+      if (!firstName || !lastName || !email || !password1|| !password2) {
+        errors.push({ msg: "Please fill in all fields" });
+      }
+    
+      if (password1 !== password2) {
+        errors.push({ msg: "Passwords do not match" });
+      }
+    
+      if (password1.length < 6) {
+        errors.push({ msg: "Password should be at least 6 characters" });
+      }
 
-// console.log("THIS IS CONSUMER_KEY", twitterKey)
-// console.log("THIS IS CONSUMER_KEY_SECRET", process.env.REACT_APP_TWITTER_APIKEY)
-// console.log("THIS IS ACCESS TOKEN", process.env.REACT_APP_TWITTER_APIKEY)
-// console.log("THIS IS ACCESS TOKEN SECRET", process.env.REACT_APP_TWITTER_APIKEY)
+      if (errors.length > 0){
+        res.json({errors: errors})
+      }else{
+          db.Users.findOne({ email: email} )
+          .then(function(user){
+            if (user){
+                res.json({msg: 'Email is already registered'})
+            }else{
+                const newUser = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: password2
+                }
+                bcrypt.genSalt(10, function(err, salt){
+                    bcrypt.hash(newUser.password, salt, function(err, hash){
+                        if (err) throw err;
 
-module.exports = function() {
+                        newUser.password = hash
 
-  // T.get('search/tweets', { q: 'funny', count: 10 }, function(err, data, response) {
-  //   const tweets = data.statuses
-  //     // .map(tweet => `LANG: ${franc(tweet.text)} : ${tweet.text}`) //CHECK LANGUAGE
-  //     .map(tweet => tweet.text)
-  //     // .filter(tweet => tweet.toLowerCase().includes('elon'));
-  //   console.log(tweets);
-  // })
+                        db.Users.create({ firstName: firstName, lastName: lastName, email: email, password: hash})
+
+                        .then(function(){
+                            console.log('new user created')
+                        })
+                        .catch(err => console.log(err));
+                    })
+                })
+            }
+          })
+      }  
+  });
 
   var movTit = 'super troopers'
 
@@ -40,4 +65,7 @@ module.exports = function() {
     }).catch(function(error) {
       console.log(error);
     })
+
 };
+
+  
