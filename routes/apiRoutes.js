@@ -2,6 +2,9 @@
 var db = require("../models");
 var bcrypt = require("bcryptjs");
 var passport = require("passport")
+const axios = require('axios');
+const madLibber = require('madLibber')
+const movieKey = process.env.REACT_APP_OMDB_KEY;
 
 module.exports = function (app) {
 //handle register
@@ -53,6 +56,16 @@ module.exports = function (app) {
           })
       }  
   });
-//handle login
 
-}
+  var movTit = 'super troopers'
+
+  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
+    .then(response => {
+      console.log(response.data.Plot)
+    }).catch(function(error) {
+      console.log(error);
+    })
+
+};
+
+  
