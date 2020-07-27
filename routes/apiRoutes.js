@@ -1,6 +1,7 @@
 //requiring models
 var db = require("../models");
 var bcrypt = require("bcryptjs");
+var passport = require("passport")
 
 module.exports = function (app) {
 //handle register
@@ -50,7 +51,8 @@ module.exports = function (app) {
                 })
             }
           })
-      }
-      
+      }  
   });
-};
+//handle login
+
+}

@@ -19,6 +19,9 @@ class Login extends Component {
     email: "",
     password1: "",
     password2: "",
+    userEmail: "",
+    userPass: "",
+    loggedIn: ""
   };
 
   handleChange = (event) => {
@@ -46,6 +49,19 @@ class Login extends Component {
       });
     console.log(this.state);
   };
+
+  loginApiHandle = (event) => {
+      event.preventDefault()
+      this.setState({ loggedIn: "/dashboard" })
+      const user = {
+          email: this.state.userEmail,
+          password: this.state.userPass
+      }
+    axios
+      .post("/login", user)
+      .then((response) => {console.log(response.data)})
+      .catch((error) => {console.log(error)})
+  }
 
   render() {
     return (
@@ -84,6 +100,7 @@ class Login extends Component {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     name={"email"}
+                    type="email"
                     placeholder={"Email"}
                     onChange={(event) => this.handleChange(event)}
                   />
@@ -116,23 +133,24 @@ class Login extends Component {
               </Tab.Pane>
               <Tab.Pane eventKey="login">
                 <Form.Group>
-                  <Form.Label>User Name</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
-                    name={"user-name"}
-                    placeholder={"User Name (required)"}
+                    name={"user_email"}
+                    type="email"
+                    placeholder={"Email"}
+                    onChange={(event) => this.handleChange(event)}
                   />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Password</Form.Label>
                   <Form.Control
-                    name={"registered-pass"}
-                    placeholder={"Password (required)"}
+                    name={"registered_pass"}
+                    type="password"
+                    placeholder={"Password"}
+                    onChange={(event) => this.handleChange(event)}
                   />
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label>Confirm Password</Form.Label>
-                </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={this.loginApiHandle}>
                   Login
                 </Button>
               </Tab.Pane>
