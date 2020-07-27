@@ -21,6 +21,6 @@ var TweetsSchema = new Schema ({
   }
 })
 
-const TweeetSchema = mongoose.model('TweeetSchema', TweeetSchema);
+const Tweets = mongoose.model('Tweets', TweetsSchema);
 
-module.export = TweeetSchema;
+module.export = Tweets;
