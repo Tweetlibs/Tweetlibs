@@ -3,8 +3,9 @@ var db = require("../models");
 var bcrypt = require("bcryptjs");
 var passport = require("passport")
 const axios = require('axios');
-const madLibber = require('madLibber')
-const movieKey = process.env.REACT_APP_OMDB_KEY;
+// const madLibber = require('madLibber')
+const movieKey = process.env.OMDB_KEY;
+const wordsKey = process.env.WORDS_KEY;
 
 module.exports = function(app) {
   //handle register
