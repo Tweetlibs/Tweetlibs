@@ -5,11 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "start": "node server.js"
-=======
     "start": "nodemon server.js"
->>>>>>> 4d8347d69e1ea4ee4b4335666f151d63d5279b21
   },
   "repository": {
     "type": "git",
@@ -22,17 +18,7 @@
   },
   "homepage": "https://github.com/Tweetlibs/Tweetlibs#readme",
   "dependencies": {
-<<<<<<< HEAD
-    "bcryptjs": "^2.4.3",
-    "connect-flash": "^0.1.1",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.9.25",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-  }
-}
-=======
+    "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.25",
@@ -42,4 +28,3 @@
     "nodemon": "^2.0.4"
   }
 }
->>>>>>> 4d8347d69e1ea4ee4b4335666f151d63d5279b21
