@@ -1,6 +1,7 @@
 //requiring models
 var db = require("../models");
 var bcrypt = require("bcryptjs");
+const movieList = require("./movieList")
 var passport = require("passport")
 const axios = require('axios');
 const madLibber = require('madLibber')
@@ -57,16 +58,16 @@ module.exports = function(app) {
     }
   });
 
-  const movies = ['movie1', 'movie2', 'movie3', 'movie4', 'movie5'];
 
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length);
-    console.log(random, array[random]);
+    console.log("RANDOM MOVIE", random, array[random]);
   }
 
-  const movTit = 'super troopers'
+  const movie = randomize(movieList)
 
-  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
+
+  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movie}&plot=full`)
     .then(response => {
       console.log(response.data.Plot)
     }).catch(function(error) {
