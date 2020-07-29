@@ -3,7 +3,6 @@ var db = require("../models");
 var bcrypt = require("bcryptjs");
 var passport = require("passport")
 const axios = require('axios');
-const madLibber = require('madLibber')
 const movieKey = process.env.REACT_APP_OMDB_KEY;
 
 module.exports = function (app) {
@@ -56,16 +55,40 @@ module.exports = function (app) {
           })
       }  
   });
+// handle login
 
+app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err,user,info) => {
+        console.log('user-info', user)
+        if (err) console.log(err)
+        if (!user){
+            const loggedIn = false
+            console.log('User does not exist', user)
+            res.json({loggedIn})
+        }
+        else {
+            req.logIn(user, err => {
+                const loggedIn = true
+                if (err) throw err;
+                res.json({loggedIn})
+            })
+        }
+    })(req, res, next)
+}) 
+
+// logout handle
+app.get("/logout", function(req, res) {
+    req.logout();
+  });
   var movTit = 'super troopers'
 
-  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
+  /*axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
     .then(response => {
       console.log(response.data.Plot)
     }).catch(function(error) {
       console.log(error);
     })
-
+*/
 };
 
   

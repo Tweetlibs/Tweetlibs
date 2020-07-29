@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Route, Redirect } from 'react-router-dom';
 import axios from "axios";
 import {
   Col,
@@ -19,9 +20,9 @@ class Login extends Component {
     email: "",
     password1: "",
     password2: "",
-    userEmail: "",
-    userPass: "",
-    loggedIn: ""
+    user_email: "",
+    registered_pass: "",
+    loggedIn: false
   };
 
   handleChange = (event) => {
@@ -52,18 +53,23 @@ class Login extends Component {
 
   loginApiHandle = (event) => {
       event.preventDefault()
-      this.setState({ loggedIn: "/dashboard" })
+      console.log('hi')
       const user = {
-          email: this.state.userEmail,
-          password: this.state.userPass
+          email: this.state.user_email,
+          password: this.state.registered_pass
       }
+      console.log(user)
     axios
       .post("/login", user)
-      .then((response) => {console.log(response.data)})
+      .then((response) => {
+          this.setState({ loggedIn: response.data.loggedIn})
+          console.log(this.state.loggedIn)
+        })
       .catch((error) => {console.log(error)})
   }
 
   render() {
+      if (this.state.loggedIn === false){
     return (
       <Tab.Container id="left-tabs-example" defaultActiveKey="register">
         <Card className="m-5">
@@ -159,6 +165,11 @@ class Login extends Component {
         </Card>
       </Tab.Container>
     );
+    }else{
+        return (
+        <Redirect from="/login" to="/dashboard"/>
+        )
+    }
   }
 }
 

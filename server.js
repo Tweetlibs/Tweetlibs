@@ -10,8 +10,6 @@ var PORT = process.env.PORT || 3001;
 //initialize express server
 var app = express();
 
-require("./config/passport")(passport);
-
 //connecting to our mongo db
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/tweetlibs'
 mongoose.connect(MONGODB_URI);
@@ -19,6 +17,9 @@ mongoose.connect(MONGODB_URI);
 //parser
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
+//middleware for passport
+require("./config/passport")(passport);
 
 // Express Session
 app.use(
@@ -31,6 +32,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 
 app.use(flash());
 //routes
