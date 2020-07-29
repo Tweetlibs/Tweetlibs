@@ -3,9 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.9.26",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -16,14 +30,5 @@
   "bugs": {
     "url": "https://github.com/Tweetlibs/Tweetlibs/issues"
   },
-  "homepage": "https://github.com/Tweetlibs/Tweetlibs#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "connect-flash": "^0.1.1",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.9.25",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-  }
+  "homepage": "https://github.com/Tweetlibs/Tweetlibs#readme"
 }
