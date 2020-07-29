@@ -1,4 +1,4 @@
-export const movieList = [
+module.exports = [
   "The Infiltrator",
   "Octopussy",
   "Office Christmas Party",
@@ -1545,4 +1545,4 @@ export const movieList = [
   "Zoolander",
   "Zoolander 2",
   "Zootopia",
-];
+]

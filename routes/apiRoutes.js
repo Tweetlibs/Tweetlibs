@@ -1,11 +1,14 @@
 //requiring models
 var db = require("../models");
-var bcrypt = require("bcryptjs");
+require('dotenv').config();
+var bcrypt = require("bcrypt");
 var passport = require("passport")
 const axios = require('axios');
-// const madLibber = require('madLibber')
+const movieList = require('../models/movielist');
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
+
+console.log(movieKey);
 
 module.exports = function(app) {
   //handle register
@@ -58,18 +61,24 @@ module.exports = function(app) {
     }
   });
 
-  const movies = ['movie1', 'movie2', 'movie3', 'movie4', 'movie5'];
+  // const movies = ['movie1', 'movie2', 'movie3', 'movie4', 'movie5'];
 
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length);
-    console.log(random, array[random]);
+    let selected = array[random]
+    return selected;
+    console.log(selected);
   }
 
-  const movTit = 'super troopers'
+  const movieTitle = randomize(movieList);
 
-  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
+  // console.log(`movie title: ${movieTitle}`);
+
+  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
     .then(response => {
-      console.log(response.data.Plot)
+      let plot = response.data.Plot;
+      // console.log(plot);
+      return plot
     }).catch(function(error) {
       console.log(error);
     })
