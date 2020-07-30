@@ -1,24 +1,63 @@
-require("dotenv").config({
-	path: "../.env",
-});
+require('dotenv').config();
 const axios = require("axios");
-const apiKey = process.env.REACT_APP_WORDS_API_KEY;
+const wordsKey = process.env.WORDS_KEY;
+var db = require("../models");
+var ignoreList = require('../routes/ignoreList.js')
 
 //test movie summary
-const fightClub =
-	"A depressed man (Edward Norton) suffering from insomnia meets a strange soap salesman named Tyler Durden (Brad Pitt) and soon finds himself living in his squalid house after his perfect apartment is destroyed. The two bored men form an underground club with strict rules and fight other men who are fed up with their mundane lives. Their perfect partnership frays when Marla (Helena Bonham Carter), a fellow support group crasher, attracts Tyler's attention.";
+console.log(`this is my api key ${wordsKey}`)
 
-CheckWord(fightClub);
+//constructor for each word
+function Word(word, key) {
+  this.word = word,
+  this.key = key,
+  this.partOfSpeech = undefined,
+  this.newWord = undefined,
+  this.flag = false
+}
+
+//create the array of objects from the original word.
+
 
 function CheckWord(words) {
-	const wordCheck = words.replace(/[.,\/#!$%\^&\*;:{}=\-_`~]/g, "");
-	const noPunctuation = wordCheck.split(" ");
-	noPunctuation.forEach((element) => {
-		if (element.includes("(" && ")" && `'`) == false) {
-			checkWordsApi(element);
-		}
-	});
+  const movieString = words;
+  var movieDesc1 = movieString.split(" ");
+  var movieDesc2 = []
+  // console.log(movieDesc1)
+  // console.log(movieDesc2)
+  var i = 0;
+  movieDesc1.forEach(element => {
+    var word1 = new Word (element, i)
+    movieDesc2.push(word1)
+    i++
+    
+  });
+  movieDesc1 = movieDesc2;
+
+  //removing punctuation from movieDesc2
+  movieDesc2.forEach(object => {
+    var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "")
+    object.word = newWord;
+      if (object.word.includes("(" && ")" && `'`) == false) {
+        if (ignoreList.includes(object.word)){
+          console.log(`suck it ${object.word}`)
+          var newPart = "undefined";
+          object.partOfSpeech = newPart;
+          console.log(object)
+        }
+      }
+  });
+  // console.log(movieDesc2);
+
+    // noPunctuation.forEach((element) => {
+    // 	if (element.includes("(" && ")" && `'`) == false) {
+    // 		checkWordsApi(element);
+    // 	}
+    // });
 }
+
+//checking 
+
 
 async function checkWordsApi(x) {
 	axios({
@@ -27,7 +66,7 @@ async function checkWordsApi(x) {
 		headers: {
 			"content-type": "application/octet-stream",
 			"x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-			"x-rapidapi-key": apiKey,
+			"x-rapidapi-key": wordsKey,
 			useQueryString: true,
 		},
 	})
@@ -51,3 +90,10 @@ async function checkWordsApi(x) {
 			return console.log(`${x} could not be defined`);
 		});
 }
+
+
+
+
+
+
+module.exports = { CheckWord }

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
-
+var words = require('./WordsApi/WordsApi.js')
 //port for environment
 var PORT = process.env.PORT || 3001;
 
@@ -11,6 +11,13 @@ var PORT = process.env.PORT || 3001;
 var app = express();
 
 require("./config/passport")(passport);
+
+
+const fightClub =
+	"A depressed man (Edward Norton) suffering from insomnia meets a strange soap salesman named Tyler Durden (Brad Pitt) and soon finds himself living in his squalid house after his perfect apartment is destroyed. The two bored men form an underground club with strict rules and fight other men who are fed up with their mundane lives. Their perfect partnership frays when Marla (Helena Bonham Carter), a fellow support group crasher, attracts Tyler's attention.";
+
+
+
 
 //connecting to our mongo db
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/tweetlibs'
@@ -42,5 +49,6 @@ app.use(express.static('public'));
 
 //starting server
 app.listen(PORT, function() {
-  console.log(`Express is running on port ${PORT}`)
+  console.log(`Express is running on port ${PORT}`);
+  words.CheckWord(fightClub);
 })
