@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from 'react-router-dom';
 import axios from "axios";
+import Alert from '../Alert';
 import {
   Col,
   Row,
@@ -22,7 +23,8 @@ class Login extends Component {
     password2: "",
     user_email: "",
     registered_pass: "",
-    loggedIn: false
+    loggedIn: false,
+    errors: []
   };
 
   handleChange = (event) => {
@@ -44,6 +46,21 @@ class Login extends Component {
       .post("/register", newUser)
       .then((response) => {
         console.log(response.data);
+        if (response.data.msg){
+            const errsArr = []
+            errsArr.push(response.data.msg)
+            this.setState({ errors: errsArr })
+            console.log(this.state.errors)
+        }else if (response.data.errors.length > 0){
+            const allErrsArr = []
+            // response.data.errors.forEach()
+            response.data.errors.forEach(element => {
+                var errorString = element.msg
+                allErrsArr.push(errorString)
+            });
+            this.setState({ errors: allErrsArr })
+            console.log(this.state.errors)
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -83,6 +100,7 @@ class Login extends Component {
               </Nav.Item>
             </Nav>
           </Col>
+          <Alert error={this.state.errors}/>
           <Col>
             <Tab.Content className="m-3">
               <Tab.Pane eventKey="register">
