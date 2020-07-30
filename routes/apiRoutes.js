@@ -60,7 +60,34 @@ module.exports = function(app) {
         })
     }
   });
+// handle login
 
+app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err,user,info) => {
+        console.log('user-info', user)
+        if (err) console.log(err)
+        if (!user){
+            const loggedIn = false
+            console.log('User does not exist', user)
+            res.json({loggedIn})
+        }
+        else {
+            req.logIn(user, err => {
+                const loggedIn = true
+                if (err) throw err;
+                res.json({loggedIn})
+            })
+        }
+    })(req, res, next)
+}) 
+
+// logout handle
+app.get("/logout", function(req, res) {
+    req.logout();
+  });
+  var movTit = 'super troopers'
+
+  /*axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
   // const movies = ['movie1', 'movie2', 'movie3', 'movie4', 'movie5'];
 
   const randomize = (array) => {
@@ -82,5 +109,7 @@ module.exports = function(app) {
     }).catch(function(error) {
       console.log(error);
     })
-
+*/
 };
+
+  
