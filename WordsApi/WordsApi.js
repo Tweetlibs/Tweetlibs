@@ -30,8 +30,7 @@ function CheckWord(words) {
     var word1 = new Word (element, i)
     movieDesc2.push(word1)
     i++
-    
-  });
+    });
   movieDesc1 = movieDesc2;
 
   //removing punctuation from movieDesc2
@@ -40,14 +39,14 @@ function CheckWord(words) {
     object.word = newWord;
       if (object.word.includes("(" && ")" && `'`) == false) {
         if (ignoreList.includes(object.word)){
-          console.log(`suck it ${object.word}`)
+          // console.log(`suck it ${object.word}`)
           var newPart = "undefined";
           object.partOfSpeech = newPart;
-          console.log(object)
+          // console.log(object)
         }
       }
   });
-  // console.log(movieDesc2);
+  console.log(movieDesc2);
 
     // noPunctuation.forEach((element) => {
     // 	if (element.includes("(" && ")" && `'`) == false) {
