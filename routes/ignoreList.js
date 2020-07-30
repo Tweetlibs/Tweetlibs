@@ -1,4 +1,4 @@
-export const ignoreList [
+const ignoreList =  [
 "all",
 "another",
 "any",
@@ -121,3 +121,5 @@ export const ignoreList [
 "yourself",
 "yourselves"
 ]
+
+module.exports = ignoreList;

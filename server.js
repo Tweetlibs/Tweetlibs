@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
-
+var words = require('./WordsApi/WordsApi.js')
 //port for environment
 var PORT = process.env.PORT || 3001;
 
@@ -45,5 +45,6 @@ app.use(express.static('public'));
 
 //starting server
 app.listen(PORT, function() {
-  console.log(`Express is running on port ${PORT}`)
+  console.log(`Express is running on port ${PORT}`);
+  words.CheckWord(fightClub);
 })
