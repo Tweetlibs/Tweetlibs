@@ -1,5 +1,6 @@
 module.exports = {
-  Created: require("./created"),
+  // Created: require("./created"),
   Tweets: require("./tweets"),
   Users: require("./users"),
+  Defined: require("./dictionary")
 };
