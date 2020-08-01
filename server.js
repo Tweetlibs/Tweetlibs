@@ -4,7 +4,7 @@ var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
 var words = require('./WordsApi/WordsApi.js')
-//port for environment
+  //port for environment
 var PORT = process.env.PORT || 3001;
 
 //initialize express server
@@ -17,7 +17,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/tweetlibs'
 mongoose.connect(MONGODB_URI);
 
 //parser
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //middleware for passport
