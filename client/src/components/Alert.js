@@ -3,16 +3,15 @@ import { Alert } from 'react-bootstrap';
 
 
 function AlertDismissibleExample(props) {
-    const [show, setShow] = useState(true);
     const errorTag = props.error.map((error, index) => {
         return (
         <p key={index}>{error}</p>
         )
     })
-    if (show) {
+    if (props.error.length > 0) {
       return (
-        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <Alert variant={props.variant} onClose={props.clearErrors} dismissible>
+          <Alert.Heading>{props.message}</Alert.Heading>
           <div>
           {errorTag}
           </div> 
