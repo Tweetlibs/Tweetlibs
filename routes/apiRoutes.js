@@ -5,10 +5,12 @@ var bcrypt = require("bcrypt");
 var passport = require("passport")
 const axios = require('axios');
 const movieList = require('../models/movielist');
+let testWord = require('../WordsApi/testArray');
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 
-console.log(movieKey);
+// console.log(movieKey);
+console.log(`test word: ${testWord}`);
 
 module.exports = function(app) {
   //handle register
@@ -60,56 +62,52 @@ module.exports = function(app) {
         })
     }
   });
-// handle login
+  // handle login
 
-app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err,user,info) => {
-        console.log('user-info', user)
-        if (err) console.log(err)
-        if (!user){
-            const loggedIn = false
-            console.log('User does not exist', user)
-            res.json({loggedIn})
-        }
-        else {
-            req.logIn(user, err => {
-                const loggedIn = true
-                if (err) throw err;
-                res.json({loggedIn})
-            })
-        }
+  app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      console.log('user-info', user)
+      if (err) console.log(err)
+      if (!user) {
+        const loggedIn = false
+        console.log('User does not exist', user)
+        res.json({ loggedIn })
+      } else {
+        req.logIn(user, err => {
+          const loggedIn = true
+          if (err) throw err;
+          res.json({ loggedIn })
+        })
+      }
     })(req, res, next)
-}) 
+  })
 
-// logout handle
-app.get("/logout", function(req, res) {
+  // logout handle
+  app.get("/logout", function(req, res) {
     req.logout();
   });
-  var movTit = 'super troopers'
 
-  /*axios.get(`http://www.omdbapi.com/?apikey=${movieKey}=${movTit}&plot=full`)
-  // const movies = ['movie1', 'movie2', 'movie3', 'movie4', 'movie5'];
+  app.get("/get-movies", function(req, res) {
+    res.send(testWord);
+  });
 
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length);
     let selected = array[random]
     return selected;
-    console.log(selected);
+    // console.log(selected);
   }
 
+  // Get random movie title from the movieList array
   const movieTitle = randomize(movieList);
-
   // console.log(`movie title: ${movieTitle}`);
 
   axios.get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
     .then(response => {
       let plot = response.data.Plot;
-      // console.log(plot);
-      return plot
+      console.log(plot);
+      // return plot
     }).catch(function(error) {
       console.log(error);
     })
-*/
 };
-
-  
