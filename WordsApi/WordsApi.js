@@ -17,8 +17,6 @@ function Word(word, key) {
 }
 
 //create the array of objects from the original word.
-
-
 function CheckWord(words) {
   const movieString = words;
   var movieDesc1 = movieString.split(" ");
@@ -36,29 +34,28 @@ function CheckWord(words) {
   //removing punctuation from movieDesc2
   movieDesc2.forEach(object => {
     var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "")
-    object.word = newWord;
-      if (!object.word.includes("(" && ")" && `'`)) {
-        if (ignoreList.includes(object.word)){
-          // console.log(`suck it ${object.word}`)
-          var newPart = "undefined";
-          object.partOfSpeech = newPart;
-          
+    //converting word to lower case
+    object.word = newWord.toLowerCase();
+      if (!object.word.toLowerCase().includes("(" && ")" && `'`)) {
+        db.Defined.find({word: object.word}, (err, res) => {
+          console.log('res:',res)
+          console.log(err)
+          if (res.length < 1) {
+            console.log('here')
+            if (ignoreList.includes(object.word)){
+              // console.log(`suck it ${object.word}`)
+              var newPart = "undefined";
+              object.partOfSpeech = newPart;
+              console.log(object)
+              console.log(`we made it`)
+            }
+                          
           // console.log(object)
         }
-        else {db.Defined.find({word: object.word}, (err, res) => {
-          console.log(res)
-          console.log(err)
-        })}
       // console.log(`this is db :`, db)
-      }
+      })
+    }
   });
-  // console.log(movieDesc2);
-
-    // noPunctuation.forEach((element) => {
-    // 	if (element.includes("(" && ")" && `'`) == false) {
-    // 		checkWordsApi(element);
-    // 	}
-    // });
 }
 
 //checking 
