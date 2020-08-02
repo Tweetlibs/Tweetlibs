@@ -13,6 +13,6 @@ var Dictionary = new Schema({
 	},
 });
 
-const Defined = mongoose.model("Created", Dictionary);
+const Defined = mongoose.model("Defined", Dictionary);
 
 module.exports = Defined;
