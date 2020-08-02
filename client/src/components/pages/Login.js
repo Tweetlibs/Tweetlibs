@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from 'react-router-dom';
 import axios from "axios";
+import Alert from '../Alert';
 import {
   Col,
   Row,
@@ -22,13 +23,15 @@ class Login extends Component {
     password2: "",
     user_email: "",
     registered_pass: "",
-    loggedIn: false
+    loggedIn: false,
+    variant: "danger",
+    alert_msg: "",
+    errors: []
   };
 
   handleChange = (event) => {
     const change = event.target.name;
     this.setState({ [change]: event.target.value });
-    console.log(this.state);
   };
 
   registerApiHandle = (event) => {
@@ -43,33 +46,60 @@ class Login extends Component {
     axios
       .post("/register", newUser)
       .then((response) => {
-        console.log(response.data);
+        if (response.data.msg){
+          if (response.data.msg === 'New account created. You may now log in!'){
+            const errsArr = []
+            errsArr.push(response.data.msg)
+            this.setState({ errors: errsArr })
+            this.setState({variant: "success"})
+            this.setState({ alert_msg : "Success"})
+          }else{
+            const errsArr = []
+            errsArr.push(response.data.msg)
+            this.setState({ errors: errsArr })
+            this.setState({ alert_msg: "Error"})
+          }
+        }else if (response.data.errors.length > 0){
+            const allErrsArr = []
+            // response.data.errors.forEach()
+            response.data.errors.forEach(element => {
+                var errorString = element.msg
+                allErrsArr.push(errorString)
+            });
+            this.setState({ errors: allErrsArr })
+            this.setState({ alert_msg: "Error"})
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(this.state);
   };
 
   loginApiHandle = (event) => {
       event.preventDefault()
-      console.log('hi')
       const user = {
           email: this.state.user_email,
           password: this.state.registered_pass
       }
-      console.log(user)
     axios
       .post("/login", user)
       .then((response) => {
-          this.setState({ loggedIn: response.data.loggedIn})
-          console.log(this.state.loggedIn)
+          if (response.data.loggedIn === true){
+            localStorage.setItem('loggedIn', true)
+            window.location.reload();
+          }else{
+            localStorage.setItem('loggedIn', false)
+          }
         })
       .catch((error) => {console.log(error)})
   }
 
+  clearErrors = () => {
+    this.setState({ errors: [] })
+  }
+
   render() {
-      if (this.state.loggedIn === false){
+      if (localStorage.getItem('loggedIn') === 'false'){
     return (
       <Tab.Container id="left-tabs-example" defaultActiveKey="register">
         <Card className="m-5">
@@ -83,6 +113,7 @@ class Login extends Component {
               </Nav.Item>
             </Nav>
           </Col>
+          <Alert error={this.state.errors} clearErrors={this.clearErrors} variant={this.state.variant} message={this.state.alert_msg}/>
           <Col>
             <Tab.Content className="m-3">
               <Tab.Pane eventKey="register">
