@@ -38,21 +38,21 @@ function CheckWord(words) {
     var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "")
     object.word = newWord;
 
-      if (!object.word.includes("(" && ")" && `'`)) {
-        if (ignoreList.includes(object.word)){
-          // console.log(`suck it ${object.word}`)
-          var newPart = "undefined";
-          object.partOfSpeech = newPart;
-          
-          // console.log(object)
-        }
-        else {db.Defined.find({word: object.word}, (err, res) => {
+    if (!object.word.includes("(" && ")" && `'`)) {
+      if (ignoreList.includes(object.word)) {
+        // console.log(`suck it ${object.word}`)
+        var newPart = "undefined";
+        object.partOfSpeech = newPart;
+
+        // console.log(object)
+      } else {
+        db.Defined.find({ word: object.word }, (err, res) => {
           console.log(res)
           console.log(err)
-        })}
+        })
+      }
       // console.log(`this is db :`, db)
 
-      }
     }
   });
   // console.log(movieDesc2);
@@ -67,7 +67,7 @@ function CheckWord(words) {
 //checking 
 
 //add a word to the definition db
-function dictionaryUpdate(x, y){
+function dictionaryUpdate(x, y) {
 
 }
 
