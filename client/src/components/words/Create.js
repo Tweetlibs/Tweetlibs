@@ -22,9 +22,20 @@ class Create extends React.Component {
             return madlibObj.flag;
         })
 
-        return filteredArr.map((madObj) => {
-            return <Input key={madObj.key} speech={madObj.partOfSpeech} />
+        return filteredArr.map((madObj, index) => {
+            return <Input key={index} movieKey={madObj.key} speech={madObj.partOfSpeech} onchange={this.handleOnChange}/>
         })
+    }
+
+    handleOnChange = (event) => {
+        let {value, id} = event.target;
+        console.log(value, id)
+        let object = this.state.data.find((currentObj) => currentObj.key === Number(id))
+        object.newWord = value;
+        let index = this.state.data.findIndex((currentObj) => currentObj.key === Number(id))
+        let newArray = this.state.data
+        newArray[index] = object
+        this.setState({data: newArray})
     }
 
     render() {
