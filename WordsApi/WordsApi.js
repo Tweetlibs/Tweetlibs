@@ -3,9 +3,12 @@ const axios = require("axios");
 const wordsKey = process.env.WORDS_KEY;
 var db = require("../models");
 var ignoreList = require("../routes/ignoreList.js");
-
+var numberWords;
+var movieDesc1;
+var movieDesc2;
 //test movie summary
 console.log(`this is my api key ${wordsKey}`);
+var definedWords = 0;
 
 //constructor for each word
 function Word(word, key) {
@@ -17,11 +20,12 @@ function Word(word, key) {
 }
 
 //create the array of objects from the original word.
-async function CheckWord(words) {
-	const movieString = words;
-	var movieDesc1 = movieString.split(" ");
-	var movieDesc2 = [];
-	// console.log(movieDesc1)
+function CheckWord(words) {
+  const movieString = words;
+  definedWords = 0;
+	movieDesc1 = movieString.split(" ");
+	movieDesc2 = [];
+  // console.log(movieDesc1)
 	// console.log(movieDesc2)
 	var i = 0;
 	movieDesc1.forEach((element) => {
@@ -29,14 +33,15 @@ async function CheckWord(words) {
 		movieDesc2.push(word1);
 		i++;
 	});
-	movieDesc1 = movieDesc2;
-
+  movieDesc1 = movieDesc2;
+  //setting a variable based on our movieDesc2 length
+  numberWords = movieDesc2.length;
   //removing punctuation from movieDesc2
-	movieDesc2.forEach((object, cb) => {
+	movieDesc2.forEach((object) => {
 		var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "");
 		//converting word to lower case
 		object.word = newWord.toLowerCase();
-		if (!object.word.toLowerCase().includes("(" && ")" && `'`)) {
+		if (!object.word.toLowerCase().includes("(" || ")" || `'`)) {
       //checking if the word has a definition in our db
 			db.Defined.find({ word: object.word }, (err, res) => {
         // console.log(res);
@@ -51,34 +56,48 @@ async function CheckWord(words) {
 						checkWordsApi(object);
 					}
 				} else if (res.length > 0) {
-					console.log('there was a response from the db')
+          console.log('there was a response from the db')
+          console.log(res[0].partOfSpeech)
+          var newPart = res[0].partOfSpeech;
+          object.partOfSpeech = newPart;
+          increaseDefined()
+          //here is where we need to update the object in our array from the database
          } else {
-					console.log("why are you even here!")
+          //giving up on even trying to define the object
+					cantDefine(object);
 				}
-			});
-		}
+      });
+    }
+    else {
+      increaseDefined()
+    }
   })
-
 }
-() => {
-  prepareMadlib(movieDesc2)
-};
-// prepareMadlib(movieDesc2);
 
 // function to make the word an undefined word
 function cantDefine(object) {
 	console.log("updating undefinable word in the dictionary");
 	var newPart = "not defined";
 	object.partOfSpeech = newPart;
-	dictionaryUpdate(object);
+  dictionaryUpdate(object);
 }
 
+//function to increment defined words as this is needed to be used frequently throughout the app
+function increaseDefined() {
+  definedWords++
+  console.log(definedWords, numberWords)
+  if (definedWords == numberWords){
+    console.log(`sweet all of the words are defined`)
+    prepareMadlib();
+  }
+}
 
 //add a word to the definition db
 function dictionaryUpdate(x) {
 	db.Defined.create(x)
 		.then(function (x) {
-			console.log("We have updated the dictionary finally");
+      console.log("We have updated the dictionary finally");
+      increaseDefined()
 		})
 		.catch(function (err) {
 			console.log(err);
@@ -120,8 +139,7 @@ async function checkWordsApi(object) {
 }
 
 //analasys of the object to start modifying it to flag nouns, verbs, and adjectives
-function prepareMadlib(array) {
-  console.log(array)
+function prepareMadlib() {
   console.log('be at the end please')
 }
 
