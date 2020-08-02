@@ -36,6 +36,15 @@ class Create extends React.Component {
         let newArray = this.state.data
         newArray[index] = object
         this.setState({data: newArray})
+        console.log(newArray)
+    }
+
+    handleSubmit = () => {
+        const submitArr = this.state.data
+        axios.post("/routehere?", {submitArr})
+        .then(res => {
+            console.log("Eureka!!", res)
+        })
     }
 
     render() {
@@ -45,7 +54,7 @@ class Create extends React.Component {
                 {/* <button onClick={this.handleClick}>Click here</button> */}
                 <div id='word-fields'>this is where the stuff goes</div>
                 {this.displayFields()}
-                <button type='submit'>Click here</button>
+                <button onClick={this.handleSubmit} type='submit'>Click here</button>
             </div>
         );
     }

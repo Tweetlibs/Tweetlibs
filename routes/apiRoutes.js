@@ -10,7 +10,7 @@ const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 
 // console.log(movieKey);
-console.log(`test word: ${testWord}`);
+// console.log(`test word: ${testWord}`);
 
 module.exports = function(app) {
   //handle register

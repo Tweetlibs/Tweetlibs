@@ -49,12 +49,12 @@ function CheckWord(words) {
         else {db.Defined.find({word: object.word}, (err, res) => {
           console.log(res)
           console.log(err)
-        })}
+      })}
       // console.log(`this is db :`, db)
 
       }
     }
-  });
+  );};
   // console.log(movieDesc2);
 
   // noPunctuation.forEach((element) => {
@@ -62,14 +62,14 @@ function CheckWord(words) {
   // 		checkWordsApi(element);
   // 	}
   // });
-}
+// }
 
 //checking 
 
 //add a word to the definition db
-function dictionaryUpdate(x, y){
+// function dictionaryUpdate(x, y){
 
-}
+// }
 
 //
 async function checkWordsApi(x) {
