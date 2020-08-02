@@ -9,9 +9,6 @@ let testWord = require('../WordsApi/testArray');
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 
-// console.log(movieKey);
-// console.log(`test word: ${testWord}`);
-
 module.exports = function(app) {
   //handle register
   app.post("/register", (req, res) => {
@@ -52,8 +49,8 @@ module.exports = function(app) {
 
                 db.Users.create({ firstName: firstName, lastName: lastName, email: email, password: hash })
 
-                .then(function() {
-                    console.log('new user created')
+                .then(function(response) {
+                    res.json({msg: 'New account created. You may now log in!'})
                   })
                   .catch(err => console.log(err));
               })
@@ -62,29 +59,27 @@ module.exports = function(app) {
         })
     }
   });
-  // handle login
+// handle login
 
-  app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-      console.log('user-info', user)
-      if (err) console.log(err)
-      if (!user) {
-        const loggedIn = false
-        console.log('User does not exist', user)
-        res.json({ loggedIn })
-      } else {
-        req.logIn(user, err => {
-          const loggedIn = true
-          if (err) throw err;
-          res.json({ loggedIn })
-        })
-      }
+app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err,user,info) => {
+        if (err) console.log(err)
+        if (!user){
+            const loggedIn = false
+            res.json({loggedIn})
+        }
+        else {
+          const loggedIn = true;
+           res.json({loggedIn})
+             }
     })(req, res, next)
   })
 
-  // logout handle
-  app.get("/logout", function(req, res) {
-    req.logout();
+// logout handle
+app.get("/logout", function(req, res) {
+  req.session.destroy(function (err) {
+    console.log('logout error', err)
+  });
   });
 
   app.get("/get-movies", function(req, res) {
