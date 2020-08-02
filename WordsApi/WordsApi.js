@@ -53,8 +53,7 @@ function CheckWord(words) {
       // console.log(`this is db :`, db)
 
       }
-    }
-  });
+    })
   // console.log(movieDesc2);
 
   // noPunctuation.forEach((element) => {
