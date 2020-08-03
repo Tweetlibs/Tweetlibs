@@ -86,6 +86,7 @@ class Login extends Component {
       .then((response) => {
           if (response.data.loggedIn === true){
             localStorage.setItem('loggedIn', true)
+            this.setState({ loggedIn: true })
             window.location.reload();
           }else{
             localStorage.setItem('loggedIn', false)
@@ -99,7 +100,7 @@ class Login extends Component {
   }
 
   render() {
-      if (localStorage.getItem('loggedIn') === 'false'){
+      if (localStorage.getItem('loggedIn') === 'false' || this.state.loggedIn === false){
     return (
       <Tab.Container id="left-tabs-example" defaultActiveKey="register">
         <Card className="m-5">
