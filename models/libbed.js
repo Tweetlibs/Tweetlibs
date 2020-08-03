@@ -29,6 +29,6 @@ var LibbedSchema = new Schema ({
     ],
 })
 
-const Shit = mongoose.model('Libbed', LibbedSchema);
+const Libbed = mongoose.model('Libbed', LibbedSchema);
 
-module.exports = Shit;
+module.exports = Libbed;
