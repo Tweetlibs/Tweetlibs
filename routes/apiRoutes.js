@@ -92,7 +92,7 @@ module.exports = function (app) {
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
     console.log(req.body);
-    db.Shit.create(data).then((dataObj) => {
+    db.Libbed.create(data).then((dataObj) => {
       console.log("this is data");
       console.log(dataObj);
     });
