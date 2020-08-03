@@ -23,32 +23,34 @@ function Word(word, key) {
 function CheckWord(words) {
   const movieString = words;
   definedWords = 0;
-	movieDesc1 = movieString.split(" ");
-	movieDesc2 = [];
-  // console.log(movieDesc1)
-	// console.log(movieDesc2)
+  originalString = movieString.split(" ");
+	movieDesc1 = [];
+  movieDesc2 = [];
+
 	var i = 0;
-	movieDesc1.forEach((element) => {
+	originalString.forEach((element) => {
 		var word1 = new Word(element, i);
-		movieDesc2.push(word1);
-		i++;
-	});
-  movieDesc1 = movieDesc2;
+    movieDesc2.push(word1);
+    movieDesc1.push(word1)
+ 		i++;
+  });
+ 
   //setting a variable based on our movieDesc2 length
   numberWords = movieDesc2.length;
   //removing punctuation from movieDesc2
 	movieDesc2.forEach((object) => {
 		var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "");
 		//converting word to lower case
-		object.word = newWord.toLowerCase();
-		if (!object.word.toLowerCase().includes("(" || ")" || `'`)) {
+		object.word = newWord;
+		if (!object.word.includes("(" || ")" || `'`)) {
       //checking if the word has a definition in our db
-			db.Defined.find({ word: object.word }, (err, res) => {
+      var x = object.word.toLowerCase()
+			db.Defined.find({ word: x }, (err, res) => {
         // console.log(res);
         //if there is a definiition in the db
 				if (res.length < 1) {
           //check the word against our ignore list
-					if (ignoreList.includes(object.word)) {
+					if (ignoreList.includes(x)){
             //send the ignore list word to the cantDefine function to get updated as a word that will not be defined - this ignoreList will eventually eliminate itself
             cantDefine(object);
 					} else {
@@ -56,38 +58,36 @@ function CheckWord(words) {
 						checkWordsApi(object);
 					}
 				} else if (res.length > 0) {
-          console.log('there was a response from the db')
-          console.log(res[0].partOfSpeech)
+          // console.log('there was a response from the db')
+          // console.log(res[0].partOfSpeech)
           var newPart = res[0].partOfSpeech;
           object.partOfSpeech = newPart;
           increaseDefined()
-          //here is where we need to update the object in our array from the database
-         } else {
-          //giving up on even trying to define the object
-					cantDefine(object);
 				}
       });
     }
     else {
-      increaseDefined()
+      cantDefine(object)
     }
   })
 }
 
 // function to make the word an undefined word
 function cantDefine(object) {
-	console.log("updating undefinable word in the dictionary");
-	var newPart = "not defined";
-	object.partOfSpeech = newPart;
+	// console.log("updating undefinable word in the dictionary");
+  var newPart = "not defined";
+  var newWord = object.word.toLowerCase()
+  object.word = newWord;
+  object.partOfSpeech = newPart;
   dictionaryUpdate(object);
 }
 
 //function to increment defined words as this is needed to be used frequently throughout the app
 function increaseDefined() {
   definedWords++
-  console.log(definedWords, numberWords)
+  // console.log(definedWords, numberWords)
   if (definedWords == numberWords){
-    console.log(`sweet all of the words are defined`)
+    // console.log(`sweet all of the words are defined`)
     prepareMadlib();
   }
 }
@@ -96,17 +96,17 @@ function increaseDefined() {
 function dictionaryUpdate(x) {
 	db.Defined.create(x)
 		.then(function (x) {
-      console.log("We have updated the dictionary finally");
+      // console.log("We have updated the dictionary finally");
       increaseDefined()
 		})
 		.catch(function (err) {
-			console.log(err);
+			// console.log(err);
 		});
 }
 
 //checking words against the words api
 async function checkWordsApi(object) {
-	console.log(`i'm looking for a word ${object.word}`);
+	// console.log(`i'm looking for a word ${object.word}`);
 	axios({
 		method: "GET",
 		url: `https://wordsapiv1.p.rapidapi.com/words/${object.word}/definitions`,
@@ -128,19 +128,45 @@ async function checkWordsApi(object) {
           var newPart = res.definitions[0].partOfSpeech
           object.partOfSpeech = newPart;
 	        dictionaryUpdate(object);
-          return console.log('sent word with API response to be updated');
+          // return console.log('sent word with API response to be updated');
 				}
 			}
 		})
 		.catch((error) => {
       cantDefine(object)
-			return console.log(`${object.word} could not be defined`);
+			// return console.log(`${object.word} could not be defined`);
 		});
 }
 
 //analasys of the object to start modifying it to flag nouns, verbs, and adjectives
 function prepareMadlib() {
-  console.log('be at the end please')
+  movieDesc2.forEach(object => {
+    movieDesc1.forEach(o => {
+      if (object.key == o.key) {
+        o.partOfSpeech = object.partOfSpeech;
+      }
+    })
+  });
+  var countVerbs = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "verb").length)*.33)
+  var countNouns = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "noun").length)*.33)
+  var countAdjectives = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "adjective").length)*.33);
+  movieDesc1.forEach(object => {
+      if (countVerbs > 0 && object.partOfSpeech == "verb") {
+        object.flag = true;
+        countVerbs--
+      }
+      if (countNouns > 0 && object.partOfSpeech == "noun") {
+        object.flag = true;
+        countNouns--
+      }
+      if (countAdjectives > 0 && object.partOfSpeech == "adjective") {
+        object.flag = true;
+        countAdjectives--
+      }
+      if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
+        return 
+      }
+  });
 }
 
 module.exports = { CheckWord };

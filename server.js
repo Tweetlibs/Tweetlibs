@@ -46,5 +46,5 @@ app.use(express.static("public"));
 //starting server
 app.listen(PORT, function () {
   console.log(`Express is running on port ${PORT}`);
-  // words.CheckWord(fightClub);
+  words.CheckWord(fightClub);
 });
