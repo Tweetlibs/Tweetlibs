@@ -31,8 +31,6 @@ class Create extends React.Component {
         return (
             <div>
                 <h2>Fill in the fields, click submit and watch the magic happen!</h2>
-                {/* <button onClick={this.handleClick}>Click here</button> */}
-                <div id='word-fields'>this is where the stuff goes</div>
                 {this.displayFields()}
                 <button type='submit'>Click here</button>
             </div>

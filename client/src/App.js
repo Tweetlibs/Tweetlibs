@@ -4,6 +4,7 @@ import Login from './components/pages/Login';
 import Dashboard from './components/pages/Dashboard';
 import './App.css';
 import Create from './components/words/Create';
+import Main from './components/pages/Main';
 
 //importing bootstrap elements
 import Container from 'react-bootstrap/Container';
@@ -14,7 +15,8 @@ function App() {
   return (
     <Router>
       <Container>
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Main} />
+        <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/create" component={Create} />
       </Container>
