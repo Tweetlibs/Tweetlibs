@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Input from "./Input";
+import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 
 class Create extends React.Component {
   state = {
@@ -61,12 +62,8 @@ class Create extends React.Component {
     return (
       <div>
         <h2>Fill in the fields, click submit and watch the magic happen!</h2>
-        {/* <button onClick={this.handleClick}>Click here</button> */}
-        <div id="word-fields">this is where the stuff goes</div>
         {this.displayFields()}
-        <button onClick={this.handleSubmit} type="submit">
-          Click here
-        </button>
+        <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
       </div>
     );
   }
