@@ -1,18 +1,18 @@
 //requiring models
 var db = require("../models");
-require('dotenv').config();
+require("dotenv").config();
 var bcrypt = require("bcrypt");
-var passport = require("passport")
-const axios = require('axios');
-const movieList = require('../models/movielist');
-let testWord = require('../WordsApi/testArray');
+var passport = require("passport");
+const axios = require("axios");
+const movieList = require("../models/movielist");
+let testWord = require("../WordsApi/testArray");
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 
-module.exports = function(app) {
+module.exports = function (app) {
   //handle register
   app.post("/register", (req, res) => {
-    const errors = []
+    const errors = [];
     const { firstName, lastName, email, password1, password2 } = req.body;
 
     if (!firstName || !lastName || !email || !password1 || !password2) {
@@ -28,81 +28,96 @@ module.exports = function(app) {
     }
 
     if (errors.length > 0) {
-      res.json({ errors: errors })
+      res.json({ errors: errors });
     } else {
-      db.Users.findOne({ email: email })
-        .then(function(user) {
-          if (user) {
-            res.json({ msg: 'Email is already registered' })
-          } else {
-            const newUser = {
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
-              password: password2
-            }
-            bcrypt.genSalt(10, function(err, salt) {
-              bcrypt.hash(newUser.password, salt, function(err, hash) {
-                if (err) throw err;
+      db.Users.findOne({ email: email }).then(function (user) {
+        if (user) {
+          res.json({ msg: "Email is already registered" });
+        } else {
+          const newUser = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password2,
+          };
+          bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(newUser.password, salt, function (err, hash) {
+              if (err) throw err;
 
-                newUser.password = hash
+              newUser.password = hash;
 
-                db.Users.create({ firstName: firstName, lastName: lastName, email: email, password: hash })
-
-                .then(function(response) {
-                    res.json({msg: 'New account created. You may now log in!'})
-                  })
-                  .catch(err => console.log(err));
+              db.Users.create({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: hash,
               })
-            })
-          }
-        })
+
+                .then(function (response) {
+                  res.json({ msg: "New account created. You may now log in!" });
+                })
+                .catch((err) => console.log(err));
+            });
+          });
+        }
+      });
     }
   });
-// handle login
+  // handle login
 
-app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err,user,info) => {
-        if (err) console.log(err)
-        if (!user){
-            const loggedIn = false
-            res.json({loggedIn})
-        }
-        else {
-          const loggedIn = true;
-           res.json({loggedIn})
-             }
-    })(req, res, next)
-  })
-
-// logout handle
-app.get("/logout", function(req, res) {
-  req.session.destroy(function (err) {
-    console.log('logout error', err)
-  });
+  app.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) console.log(err);
+      if (!user) {
+        const loggedIn = false;
+        res.json({ loggedIn });
+      } else {
+        const loggedIn = true;
+        res.json({ loggedIn });
+      }
+    })(req, res, next);
   });
 
-  app.get("/get-movies", function(req, res) {
+  // logout handle
+  app.get("/logout", function (req, res) {
+    req.session.destroy(function (err) {
+      console.log("logout error", err);
+    });
+  });
+
+  app.get("/get-movies", function (req, res) {
     res.send(testWord);
   });
 
+  app.post("/new-words", (req, res) => {
+    const { data } = req.body;
+    console.log(req.body);
+    db.Libbed.create(data).then((dataObj) => {
+      console.log("this is data");
+      console.log(dataObj);
+    });
+  });
+  //link user to libbed database
+
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length);
-    let selected = array[random]
+    let selected = array[random];
     return selected;
     // console.log(selected);
-  }
+  };
 
   // Get random movie title from the movieList array
   const movieTitle = randomize(movieList);
   // console.log(`movie title: ${movieTitle}`);
 
-  axios.get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
-    .then(response => {
+  axios
+    .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
+    .then((response) => {
       let plot = response.data.Plot;
       console.log(plot);
       // return plot
-    }).catch(function(error) {
-      console.log(error);
     })
+    .catch(function (error) {
+      console.log(error);
+    });
 };
