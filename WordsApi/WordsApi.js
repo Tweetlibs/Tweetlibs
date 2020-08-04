@@ -31,9 +31,10 @@ function CheckWord(words) {
 	originalString.forEach((element) => {
 		var word1 = new Word(element, i);
     movieDesc2.push(word1);
-    movieDesc1.push(word1)
+    movieDesc1.push(word1);
  		i++;
   });
+
  
   //setting a variable based on our movieDesc2 length
   numberWords = movieDesc2.length;
@@ -76,8 +77,6 @@ function CheckWord(words) {
 function cantDefine(object) {
 	// console.log("updating undefinable word in the dictionary");
   var newPart = "not defined";
-  var newWord = object.word.toLowerCase()
-  object.word = newWord;
   object.partOfSpeech = newPart;
   dictionaryUpdate(object);
 }
@@ -94,7 +93,10 @@ function increaseDefined() {
 
 //add a word to the definition db
 function dictionaryUpdate(x) {
-	db.Defined.create(x)
+  theUpdate = x;
+  newWord = theUpdate.word.toLowerCase();
+  theUpdate.word = newWord;
+	db.Defined.create(theUpdate)
 		.then(function (x) {
       // console.log("We have updated the dictionary finally");
       increaseDefined()
@@ -147,6 +149,7 @@ function prepareMadlib() {
       }
     })
   });
+
   var countVerbs = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "verb").length)*.33)
   var countNouns = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "noun").length)*.33)
   var countAdjectives = Math.ceil((movieDesc2.filter((obj) => obj.partOfSpeech === "adjective").length)*.33);
@@ -164,9 +167,9 @@ function prepareMadlib() {
         countAdjectives--
       }
       if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
-        return 
       }
   });
+  
 }
 
 module.exports = { CheckWord };
