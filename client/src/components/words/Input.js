@@ -1,12 +1,13 @@
 import React from 'react';
+import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 
 class Input extends React.Component {
     render() {
         return (
-            <div>
-                <input type="text" id={this.props.movieKey} onChange={this.props.onchange}/>
-                <h3>{this.props.speech}</h3>
-            </div>
+            <>
+                <Form.Label>{this.props.speech}</Form.Label>
+                <Form.Control type="text" id={this.props.movieKey} onChange={this.props.onchange} />
+            </>
         );
     }
 };
