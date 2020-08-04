@@ -8,6 +8,7 @@ const movieList = require("../models/movielist");
 let testWord = require("../WordsApi/testArray");
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
+var words = require("../WordsApi/WordsApi.js");
 
 module.exports = function (app) {
   //handle register
@@ -115,6 +116,7 @@ module.exports = function (app) {
     .then((response) => {
       let plot = response.data.Plot;
       console.log(plot);
+      words.CheckWord(plot)
       // return plot
     })
     .catch(function (error) {
