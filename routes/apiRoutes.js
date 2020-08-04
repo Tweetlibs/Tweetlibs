@@ -87,19 +87,6 @@ module.exports = function (app) {
   });
 
   app.get("/get-movies", function (req, res) {
-    res.send(testWord);
-  });
-
-  app.post("/new-words", (req, res) => {
-    const { data } = req.body;
-    console.log(req.body);
-    db.Libbed.create(data).then((dataObj) => {
-      console.log("this is data");
-      console.log(dataObj);
-    });
-  });
-  //link user to libbed database
-
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length);
     let selected = array[random];
@@ -122,4 +109,17 @@ module.exports = function (app) {
     .catch(function (error) {
       console.log(error);
     });
+  });
+
+  app.post("/new-words", (req, res) => {
+    const { data } = req.body;
+    console.log(req.body);
+    db.Libbed.create(data).then((dataObj) => {
+      console.log("this is data");
+      console.log(dataObj);
+    });
+  });
+  //link user to libbed database
+
+  
 };

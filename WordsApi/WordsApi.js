@@ -142,10 +142,13 @@ async function checkWordsApi(object) {
 
 //analasys of the object to start modifying it to flag nouns, verbs, and adjectives
 function prepareMadlib() {
+  console.log(originalString)
   movieDesc2.forEach(object => {
-    movieDesc1.forEach(o => {
+    movieDesc1.forEach((o, i) => {
       if (object.key == o.key) {
+        o.word = originalString[i]
         o.partOfSpeech = object.partOfSpeech;
+        console.log(o.word)
       }
     })
   });
@@ -167,9 +170,9 @@ function prepareMadlib() {
         countAdjectives--
       }
       if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
+        return movieDesc1;
       }
   });
-  
 }
 
 module.exports = { CheckWord };
