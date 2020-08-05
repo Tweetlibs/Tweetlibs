@@ -12,7 +12,7 @@ var movieDesc2;
 console.log(`this is my api key ${wordsKey}`);
 var definedWords = 0;
 
-var fightClub = `A depressed man (Edward Norton) suffering from insomnia meets a strange soap salesman named Tyler Durden (Brad Pitt) and soon finds himself living in his squalid house after his perfect apartment is destroyed. The two bored men form an underground club with strict rules and fight other men who are fed up with their mundane lives. Their perfect partnership frays when Marla (Helena Bonham Carter), a fellow support group crasher, attracts Tyler's attention.`;
+const fightClub = `A depressed man (Edward Norton) suffering from insomnia meets a strange soap salesman named Tyler Durden (Brad Pitt) and soon finds himself living in his squalid house after his perfect apartment is destroyed. The two bored men form an underground club with strict rules and fight other men who are fed up with their mundane lives. Their perfect partnership frays when Marla (Helena Bonham Carter), a fellow support group crasher, attracts Tyler's attention.`;
 
 //constructor for each word
 function Word(word, key) {
@@ -197,7 +197,16 @@ module.exports = function (app) {
 			var countAdjectives = Math.ceil(
 				movieDesc2.filter((obj) => obj.partOfSpeech === "adjective").length *
 					0.33
-			);
+      );
+      if (countVerbs > 5){
+        countVerbs = 5
+      }
+      if (countAdjectives > 5){
+        countNouns = 5
+      }
+      if (countAdjectives > 5){
+        countVerbs = 5
+      }
 			movieDesc1.forEach((object) => {
 				if (countVerbs > 0 && object.partOfSpeech == "verb") {
 					object.flag = true;
@@ -213,7 +222,8 @@ module.exports = function (app) {
 				}
 				if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
 					//finally sending to the front end
-					res.json(movieDesc1);
+          res.json(movieDesc1);
+          
 				}
 			});
 		}
