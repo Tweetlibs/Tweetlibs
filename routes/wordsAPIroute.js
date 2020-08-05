@@ -12,6 +12,8 @@ var movieDesc2;
 console.log(`this is my api key ${wordsKey}`);
 var definedWords = 0;
 
+var fightClub = `A depressed man (Edward Norton) suffering from insomnia meets a strange soap salesman named Tyler Durden (Brad Pitt) and soon finds himself living in his squalid house after his perfect apartment is destroyed. The two bored men form an underground club with strict rules and fight other men who are fed up with their mundane lives. Their perfect partnership frays when Marla (Helena Bonham Carter), a fellow support group crasher, attracts Tyler's attention.`;
+
 //constructor for each word
 function Word(word, key) {
 	(this.word = word),
@@ -22,7 +24,7 @@ function Word(word, key) {
 }
 module.exports = function (app) {
 	app.get("/get-movies", function (req, res) {
-    console.log("here")
+		console.log("here");
 		const randomize = (array) => {
 			const random = Math.floor(Math.random() * array.length);
 			let selected = array[random];
@@ -31,7 +33,7 @@ module.exports = function (app) {
 		};
 
 		// Get random movie title from the movieList array
-		const movieTitle = randomize(movieList);
+		let movieTitle = randomize(movieList);
 
 		axios
 			.get(
@@ -40,8 +42,11 @@ module.exports = function (app) {
 			.then((response) => {
 				let plot = response.data.Plot;
 				console.log(plot);
-				CheckWord(plot);
-				// return plot
+				if (plot) {
+					CheckWord(plot);
+				} else {
+					CheckWord(fightClub);
+				}
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -208,7 +213,7 @@ module.exports = function (app) {
 				}
 				if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
 					//finally sending to the front end
-					res.send(movieDesc1);
+					res.json(movieDesc1);
 				}
 			});
 		}
