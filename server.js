@@ -39,6 +39,8 @@ app.use(flash());
 //routes
 require("./routes/apiRoutes.js")(app);
 require("./routes/htmlRoutes.js")(app);
+require("./routes/wordsAPIroute")(app);
+
 
 //making public a static folder
 app.use(express.static("public"));

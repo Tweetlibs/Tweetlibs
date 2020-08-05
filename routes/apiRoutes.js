@@ -86,30 +86,30 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/get-movies", function (req, res) {
-  const randomize = (array) => {
-    const random = Math.floor(Math.random() * array.length);
-    let selected = array[random];
-    return selected;
-    // console.log(selected);
-  };
+  // app.get("/get-movies", function (req, res) {
+  // const randomize = (array) => {
+  //   const random = Math.floor(Math.random() * array.length);
+  //   let selected = array[random];
+  //   return selected;
+  //   // console.log(selected);
+  // };
 
-  // Get random movie title from the movieList array
-  const movieTitle = randomize(movieList);
-  // console.log(`movie title: ${movieTitle}`);
+  // // Get random movie title from the movieList array
+  // const movieTitle = randomize(movieList);
+  // // console.log(`movie title: ${movieTitle}`);
 
-  axios
-    .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
-    .then((response) => {
-      let plot = response.data.Plot;
-      console.log(plot);
-      words.CheckWord(plot)
-      // return plot
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  });
+  // axios
+  //   .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
+  //   .then((response) => {
+  //     let plot = response.data.Plot;
+  //     console.log(plot);
+  //     words.CheckWord(plot)
+  //     // return plot
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // });
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
