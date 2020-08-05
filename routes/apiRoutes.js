@@ -131,9 +131,9 @@ module.exports = function(app) {
     replace(/,/g, ' ');
     console.log(`new plot: ${newPlot2}`);
 
-    db.Libbed.create(data).then((dataObj) => {
-      // console.log("this is data");
-      // console.log(dataObj);
+    db.Libbed.create(newPlot2).then((dataObj) => {
+      console.log("this is data");
+      console.log(dataObj);
     });
   });
   //link user to libbed database

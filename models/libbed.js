@@ -3,30 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var LibbedSchema = new Schema ({
-  Libbed: [
+  Libbed: 
     {
-      flag: {
-        type: Boolean,
-        require: true
-      },
-      key: {
-        type: Number,
-        require: true
-      },
-      newWord: {
-        type: String,
-        require: false
-      },
-      partOfSpeech: {
-        type: String,
-        require: true
-      },
-      word: {
+      words: {
         type: String,
         require: true
       },
     }
-    ],
+    
 })
 
 const Libbed = mongoose.model('Libbed', LibbedSchema);
