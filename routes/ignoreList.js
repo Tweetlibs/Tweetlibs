@@ -1,4 +1,5 @@
 const ignoreList =  [
+"a",
 "all",
 "another",
 "any",
