@@ -198,14 +198,14 @@ module.exports = function (app) {
 				movieDesc2.filter((obj) => obj.partOfSpeech === "adjective").length *
 					0.33
       );
-      if (countVerbs > 5){
-        countVerbs = 5
+      if (countVerbs > 4){
+        countVerbs = 4
       }
-      if (countAdjectives > 5){
-        countNouns = 5
+      if (countAdjectives > 3){
+        countAdjectives = 3
       }
-      if (countAdjectives > 5){
-        countVerbs = 5
+      if (countNouns > 3){
+        countNouns = 3
       }
 			movieDesc1.forEach((object) => {
 				if (countVerbs > 0 && object.partOfSpeech == "verb") {
