@@ -73,8 +73,12 @@ module.exports = function(app) {
         const loggedIn = false;
         res.json({ loggedIn });
       } else {
-        const loggedIn = true;
-        res.json({ loggedIn });
+        console.log(user)
+        var results = {
+          id: user._id,
+          loggedIn: true,
+        }
+        res.json(results);
       }
     })(req, res, next);
   });
@@ -114,7 +118,7 @@ module.exports = function(app) {
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
-    console.log(`data: ${data}`)
+    // console.log(`data: ${data}`)
       // console.log(req.body);
 
     let newPlot = [];
@@ -129,11 +133,22 @@ module.exports = function(app) {
     var newPlot1 = newPlot.toString();
     const newPlot2 = newPlot1.
     replace(/,/g, ' ');
-    console.log(`new plot: ${newPlot2}`);
+    // console.log(`new plot: ${newPlot2}`);
+    const plot = {Libbed: {words: newPlot2}}
+    console.log(req)
 
-    db.Libbed.create(newPlot2).then((dataObj) => {
+    db.Libbed.create(plot).then((dataObj) => {
       console.log("this is data");
-      console.log(dataObj);
+      console.log(dataObj._id);
+      db.Users.findOneAndUpdate({_id: req.user.id}, { $push: { plot: dataObj._id } }, { new: true })
+      .then((newData) => {
+        var results = {
+          firstName: newData.firstName,
+          lastName: newData.lastName,
+          email: newData.email
+        }
+        res.json(results)
+      });
     });
   });
   //link user to libbed database
