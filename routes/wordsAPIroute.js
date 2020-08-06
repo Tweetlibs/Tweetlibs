@@ -198,32 +198,34 @@ module.exports = function (app) {
 				movieDesc2.filter((obj) => obj.partOfSpeech === "adjective").length *
 					0.33
       );
-      if (countVerbs > 5){
-        countVerbs = 5
+      if (countVerbs > 4){
+        countVerbs = 4
       }
-      if (countAdjectives > 5){
-        countNouns = 5
+      if (countAdjectives > 3){
+        countAdjectives = 3
       }
-      if (countAdjectives > 5){
-        countVerbs = 5
+      if (countNouns > 3){
+        countNouns = 3
       }
+      console.log('fuck')
 			movieDesc1.forEach((object) => {
-				if (countVerbs > 0 && object.partOfSpeech == "verb") {
-					object.flag = true;
+        var selected = movieDesc1[Math.floor(Math.random()*movieDesc1.length)]
+        console.log(selected)
+				if (countVerbs > 0 && selected.partOfSpeech == "verb") {
+					selected.flag = true;
 					countVerbs--;
 				}
-				if (countNouns > 0 && object.partOfSpeech == "noun") {
-					object.flag = true;
+				if (countNouns > 0 && selected.partOfSpeech == "noun") {
+					selected.flag = true;
 					countNouns--;
 				}
-				if (countAdjectives > 0 && object.partOfSpeech == "adjective") {
-					object.flag = true;
+				if (countAdjectives > 0 && selected.partOfSpeech == "adjective") {
+					selected.flag = true;
 					countAdjectives--;
 				}
 				if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
 					//finally sending to the front end
           res.json(movieDesc1);
-          
 				}
 			});
 		}
