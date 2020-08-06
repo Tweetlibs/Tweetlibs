@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var LibbedSchema = new Schema ({
-  Libbed: 
-    {
-      words: {
-        type: String,
-        require: true
-      },
-    }
+  user_id : {
+    type: String,
+    require: true
+  },
+  libbedWords: {
+    type: Array,
+    require: true
+  }
     
 })
 

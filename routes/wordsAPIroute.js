@@ -221,7 +221,7 @@ module.exports = function (app) {
 				}
 				if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
 					//finally sending to the front end
-          res.json(movieDesc1);
+          res.json(originalString);
           
 				}
 			});

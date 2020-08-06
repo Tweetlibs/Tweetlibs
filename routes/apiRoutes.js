@@ -9,6 +9,7 @@ let testWord = require("../WordsApi/testArray");
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 var words = require("../WordsApi/WordsApi.js");
+var user_id = ""
 
 module.exports = function(app) {
   //handle register
@@ -73,6 +74,7 @@ module.exports = function(app) {
         const loggedIn = false;
         res.json({ loggedIn });
       } else {
+        user_id = user._id
         console.log(user)
         var results = {
           id: user._id,
@@ -119,7 +121,7 @@ module.exports = function(app) {
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
     // console.log(`data: ${data}`)
-       console.log(req.body);
+       console.log('yoooo', user_id)
        
 
     let newPlot = [];
