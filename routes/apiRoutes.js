@@ -10,7 +10,7 @@ const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 var words = require("../WordsApi/WordsApi.js");
 
-module.exports = function (app) {
+module.exports = function(app) {
   //handle register
   app.post("/register", (req, res) => {
     const errors = [];
@@ -31,7 +31,7 @@ module.exports = function (app) {
     if (errors.length > 0) {
       res.json({ errors: errors });
     } else {
-      db.Users.findOne({ email: email }).then(function (user) {
+      db.Users.findOne({ email: email }).then(function(user) {
         if (user) {
           res.json({ msg: "Email is already registered" });
         } else {
@@ -41,8 +41,8 @@ module.exports = function (app) {
             email: email,
             password: password2,
           };
-          bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
+          bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(newUser.password, salt, function(err, hash) {
               if (err) throw err;
 
               newUser.password = hash;
@@ -54,7 +54,7 @@ module.exports = function (app) {
                 password: hash,
               })
 
-                .then(function (response) {
+              .then(function(response) {
                   res.json({ msg: "New account created. You may now log in!" });
                 })
                 .catch((err) => console.log(err));
@@ -73,53 +73,87 @@ module.exports = function (app) {
         const loggedIn = false;
         res.json({ loggedIn });
       } else {
-        const loggedIn = true;
-        res.json({ loggedIn });
+        console.log(user)
+        var results = {
+          id: user._id,
+          loggedIn: true,
+        }
+        res.json(results);
       }
     })(req, res, next);
   });
 
   // logout handle
-  app.get("/logout", function (req, res) {
-    req.session.destroy(function (err) {
+  app.get("/logout", function(req, res) {
+    req.session.destroy(function(err) {
       console.log("logout error", err);
     });
   });
 
-  // app.get("/get-movies", function (req, res) {
-  // const randomize = (array) => {
-  //   const random = Math.floor(Math.random() * array.length);
-  //   let selected = array[random];
-  //   return selected;
-  //   // console.log(selected);
-  // };
+  app.get("/get-movies", function(req, res) {
+    // const randomize = (array) => {
+    //   const random = Math.floor(Math.random() * array.length);
+    //   let selected = array[random];
+    //   return selected;
+    //   // console.log(selected);
+    // };
 
-  // // Get random movie title from the movieList array
-  // const movieTitle = randomize(movieList);
-  // // console.log(`movie title: ${movieTitle}`);
+    // // Get random movie title from the movieList array
+    // const movieTitle = randomize(movieList);
+    // // console.log(`movie title: ${movieTitle}`);
 
-  // axios
-  //   .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
-  //   .then((response) => {
-  //     let plot = response.data.Plot;
-  //     console.log(plot);
-  //     words.CheckWord(plot)
-  //     // return plot
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  // });
+    // axios
+    //   .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
+    //   .then((response) => {
+    //     let plot = response.data.Plot;
+    //     console.log(plot);
+    //     words.CheckWord(plot)
+    //     // return plot
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    res.send(testWord);
+  });
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
-    console.log(req.body);
-    db.Libbed.create(data).then((dataObj) => {
-      console.log("this is data");
-      console.log(dataObj);
+    // console.log(`data: ${data}`)
+       console.log(req.body);
+       
+
+    let newPlot = [];
+    req.body.data.map((newPlotString) => {
+      if (newPlotString.flag === true) {
+        newPlot.push(newPlotString.newWord)
+      } else {
+        newPlot.push(newPlotString.word)
+      }
     });
+    //console.log(newPlot.toString().replace(/,/g, ' '))
+    /*
+    var newPlot1 = newPlot.toString();
+    const newPlot2 = newPlot1.
+    replace(/,/g, ' ');
+    // console.log(`new plot: ${newPlot2}`);
+    const plot = {Libbed: {words: newPlot2}}
+    console.log(req)
+
+    db.Libbed.create(plot).then((dataObj) => {
+      console.log("this is data");
+      console.log(dataObj._id);
+      db.Users.findOneAndUpdate({_id: req.user.id}, { $push: { plot: dataObj._id } }, { new: true })
+      .then((newData) => {
+        var results = {
+          firstName: newData.firstName,
+          lastName: newData.lastName,
+          email: newData.email
+        }
+        res.json(results)
+      });
+    });
+    */
   });
   //link user to libbed database
 
-  
 };

@@ -32,7 +32,13 @@ const UsersSchema = new Schema({
     type: Boolean,
     require: true,
     default: false
-  }
+  },
+  plot: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Libbed"
+    }
+  ]
 });
 
 // This creates our model from the above schema, using mongoose's model method

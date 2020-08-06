@@ -177,7 +177,6 @@ module.exports = function (app) {
 
 		//analasys of the object to start modifying it to flag nouns, verbs, and adjectives
 		function prepareMadlib() {
-			console.log(originalString);
 			movieDesc2.forEach((object) => {
 				movieDesc1.forEach((o, i) => {
 					if (object.key == o.key) {

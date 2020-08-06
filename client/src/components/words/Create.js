@@ -10,7 +10,7 @@ class Create extends React.Component {
 
   componentDidMount() {
     axios.get("/get-movies").then((response) => {
-      // console.log(response)
+       console.log('brooke is stinky', response.data)
       this.setState({ data: response.data });
     });
   }
