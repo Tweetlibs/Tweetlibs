@@ -29,11 +29,11 @@ module.exports = function (app) {
 			const random = Math.floor(Math.random() * array.length);
 			let selected = array[random];
 			return selected;
-			// console.log(selected);
 		};
 
 		// Get random movie title from the movieList array
 		let movieTitle = randomize(movieList);
+		console.log(movieTitle)
 
 		axios
 			.get(
@@ -177,7 +177,6 @@ module.exports = function (app) {
 
 		//analasys of the object to start modifying it to flag nouns, verbs, and adjectives
 		function prepareMadlib() {
-			console.log(originalString);
 			movieDesc2.forEach((object) => {
 				movieDesc1.forEach((o, i) => {
 					if (object.key == o.key) {
