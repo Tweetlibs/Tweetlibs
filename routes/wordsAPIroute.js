@@ -29,11 +29,11 @@ module.exports = function (app) {
 			const random = Math.floor(Math.random() * array.length);
 			let selected = array[random];
 			return selected;
-			// console.log(selected);
 		};
 
 		// Get random movie title from the movieList array
 		let movieTitle = randomize(movieList);
+		console.log(movieTitle)
 
 		axios
 			.get(
@@ -221,7 +221,7 @@ module.exports = function (app) {
 				}
 				if (countAdjectives == 0 && countNouns == 0 && countVerbs == 0) {
 					//finally sending to the front end
-          res.json(originalString);
+          res.json(movieDesc1);
           
 				}
 			});

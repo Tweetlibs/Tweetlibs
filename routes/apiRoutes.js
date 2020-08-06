@@ -9,7 +9,7 @@ let testWord = require("../WordsApi/testArray");
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 var words = require("../WordsApi/WordsApi.js");
-var user_id = ""
+var users_id = ""
 
 module.exports = function(app) {
   //handle register
@@ -74,7 +74,7 @@ module.exports = function(app) {
         const loggedIn = false;
         res.json({ loggedIn });
       } else {
-        user_id = user._id
+        users_id = user._id
         console.log(user)
         var results = {
           id: user._id,
@@ -92,36 +92,12 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/get-movies", function(req, res) {
-    // const randomize = (array) => {
-    //   const random = Math.floor(Math.random() * array.length);
-    //   let selected = array[random];
-    //   return selected;
-    //   // console.log(selected);
-    // };
-
-    // // Get random movie title from the movieList array
-    // const movieTitle = randomize(movieList);
-    // // console.log(`movie title: ${movieTitle}`);
-
-    // axios
-    //   .get(`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=full`)
-    //   .then((response) => {
-    //     let plot = response.data.Plot;
-    //     console.log(plot);
-    //     words.CheckWord(plot)
-    //     // return plot
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    res.send(testWord);
-  });
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
     // console.log(`data: ${data}`)
-       console.log('yoooo', user_id)
+       console.log('yoooo', users_id)
+       console.log(req.body)
        
 
     let newPlot = [];
@@ -133,28 +109,20 @@ module.exports = function(app) {
       }
     });
     //console.log(newPlot.toString().replace(/,/g, ' '))
-    /*
+    
     var newPlot1 = newPlot.toString();
     const newPlot2 = newPlot1.
     replace(/,/g, ' ');
     // console.log(`new plot: ${newPlot2}`);
-    const plot = {Libbed: {words: newPlot2}}
-    console.log(req)
+    const plot = {user_id: users_id, libbedWords: req.body.data}
 
     db.Libbed.create(plot).then((dataObj) => {
       console.log("this is data");
-      console.log(dataObj._id);
-      db.Users.findOneAndUpdate({_id: req.user.id}, { $push: { plot: dataObj._id } }, { new: true })
-      .then((newData) => {
-        var results = {
-          firstName: newData.firstName,
-          lastName: newData.lastName,
-          email: newData.email
-        }
-        res.json(results)
-      });
-    });
-    */
+      console.log(dataObj);
+    }).catch(function(error){
+      console.log(error)
+    })
+    
   });
   //link user to libbed database
 
