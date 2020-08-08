@@ -22,6 +22,9 @@ const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds1557
 mongoose.connect(MONGODB_URI);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(__dirname + "/client/build"));
+  app.get("/*", function(req, res) {
+    res.sendFile(__dirname + "/client/build")
+  });
 }
 
 //parser
