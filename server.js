@@ -4,6 +4,7 @@ var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
 require("dotenv").config()
+const path = require('path')
 var USER = process.env.USER;
 var PASS = process.env.PASS;
 
@@ -21,7 +22,11 @@ var app = express();
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
 mongoose.connect(MONGODB_URI);
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("./client/build"));
+app.use(express.static(path.join(__dirname, '/client/build')))
+// Anything that doesn't match the above, send back index.html
+app.get('*', (req, res) => {
+res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
 }
 
 //parser
