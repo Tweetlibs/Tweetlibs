@@ -12,8 +12,11 @@ var app = express();
 
 
 //connecting to our mongo db
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:Password1@ds155727.mlab.com:55727/heroku_tx9s8ksw";
 mongoose.connect(MONGODB_URI);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 //parser
 app.use(express.urlencoded({ extended: true }));
