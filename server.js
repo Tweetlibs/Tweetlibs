@@ -3,6 +3,8 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
+var USER = require(".env")
+var PASS = require(".env")
 
 //port for environment
 var PORT = process.env.PORT || 3001;
@@ -12,8 +14,11 @@ var app = express();
 
 
 //connecting to our mongo db
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
+const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
 mongoose.connect(MONGODB_URI);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 //parser
 app.use(express.urlencoded({ extended: true }));

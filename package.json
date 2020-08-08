@@ -15,12 +15,17 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
+  "engines": {
+    "node": "10.16.0"
+},
   "devDependencies": {
     "nodemon": "^2.0.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ignore 'client/*' server.js"
+    "start": "nodemon --ignore 'client/*' server.js",
+    "start": "node backend/server.js",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
   },
   "repository": {
     "type": "git",
