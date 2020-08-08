@@ -9,7 +9,6 @@ let testWord = require("../WordsApi/testArray");
 const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 var words = require("../WordsApi/WordsApi.js");
-var users_id = ""
 
 module.exports = function(app) {
   //handle register
@@ -74,7 +73,7 @@ module.exports = function(app) {
         const loggedIn = false;
         res.json({ loggedIn });
       } else {
-        users_id = user._id
+        //users_id = user._id
         console.log(user)
         var results = {
           id: user._id,
@@ -95,24 +94,33 @@ module.exports = function(app) {
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
+    var users_id = req.body.id
     // console.log(`data: ${data}`)
-       console.log('yoooo', users_id)
-       console.log(req.body)
+       console.log('yoooo', req.body.id)
        
 
     let newPlot = [];
     req.body.data.map((newPlotString) => {
       if (newPlotString.flag === true) {
+        if(newPlotString.newWord == undefined){
+          newPlotString.newWord = "blank"
+        }
+        if (newPlotString.newWord == "()"){
+          newPlotString.newWord = "(blank)"
+          
+        }
+        newPlotString.newWord = "(" + newPlotString.newWord + ")"
         newPlot.push(newPlotString.newWord)
       } else {
         newPlot.push(newPlotString.word)
       }
     });
+    console.log(newPlot)
     //console.log(newPlot.toString().replace(/,/g, ' '))
-    
     var newPlot1 = newPlot.toString();
     const newPlot2 = newPlot1.
     replace(/,/g, ' ');
+    res.send(newPlot2)
     // console.log(`new plot: ${newPlot2}`);
     const plot = {user_id: users_id, libbedWords: req.body.data}
 

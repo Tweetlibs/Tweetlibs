@@ -2,17 +2,32 @@ import React from "react";
 import axios from "axios";
 import Input from "./Input";
 import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
+import Example from '../Modal';
 
 class Create extends React.Component {
   state = {
     data: [],
+    user_id: localStorage.getItem('user_id'),
+    show: false,
+    libbed: ""
   };
 
-  componentDidMount() {
+async componentDidMount() {
+  console.log('hi')
     axios.get("/get-movies").then((response) => {
-       console.log('brooke is stinky', response.data)
+      console.log('brooke is stinky', response.data)
       this.setState({ data: response.data });
-    });
+      this.displayFields()
+    }).catch(function(error){
+      console.log(error)
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ show: false })
+  }
+  handleShow = () => {
+    this.setState({ show : true })
   }
 
   displayFields() {
@@ -52,15 +67,19 @@ class Create extends React.Component {
     const { data } = this.state;
     const payload = {
       data,
+      id: this.state.user_id
     };
     axios.post("/new-words", payload).then((res) => {
-      console.log("Eureka!!", res);
+      console.log("Eureka!!", res.data);
+      this.setState({ libbed: res.data })
     });
+    this.setState({ show: true })
   };
 
   render() {
     return (
       <div>
+        <Example show={this.handleShow} close={this.handleClose} state={this.state.show} libbed={this.state.libbed}/>
         <h2>Fill in the fields, click submit and watch the magic happen!</h2>
         {this.displayFields()}
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}

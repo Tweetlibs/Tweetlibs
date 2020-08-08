@@ -15,7 +15,6 @@ handleLogout = () => {
       .catch((error) => {console.log(error)})
 };
     render() {
-        console.log(localStorage.getItem('loggedIn'))
         if (localStorage.getItem('loggedIn') === 'true'){
         return (
             <div>
