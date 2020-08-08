@@ -134,13 +134,6 @@ module.exports = function (app) {
       definedWords++;
       // console.log(`words defined ${definedWords} of ${numberWords}`)
       // console.log(x)
-      if (definedWords == numberWords-1){
-        movieDesc2.forEach(object => {
-          if (object.partOfSpeech == undefined){
-          console.log(`this fucking word ${object.word}`)
-          }
-        });
-      }
 			// console.log(definedWords, numberWords)
 			if (definedWords == numberWords) {
 				// console.log(`sweet all of the words are defined`)
