@@ -3,6 +3,9 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
+require("dotenv").config()
+var USER = process.env.USER;
+var PASS = process.env.PASS;
 
 //port for environment
 var PORT = process.env.PORT || 3001;
@@ -10,10 +13,16 @@ var PORT = process.env.PORT || 3001;
 //initialize express server
 var app = express();
 
-
 //connecting to our mongo db
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
 mongoose.connect(MONGODB_URI);
+
+// //connecting to our mongo db
+// const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
+// mongoose.connect(MONGODB_URI);
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static("client/build"));
+// }
 
 //parser
 app.use(express.urlencoded({ extended: true }));

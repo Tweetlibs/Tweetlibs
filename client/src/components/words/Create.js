@@ -82,7 +82,7 @@ async componentDidMount() {
   render() {
     return (
       <div>
-        <Example show={this.handleShow} close={this.handleClose} state={this.state.show} libbed={this.state.libbed}/>
+        <Example show={this.handleShow} close={this.handleClose} state={this.state.show} libbed={this.state.libbed} />
         <h2>Fill in the fields, click submit and watch the magic happen!</h2>
         {this.displayFields()}
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
