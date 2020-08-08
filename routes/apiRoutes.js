@@ -74,7 +74,7 @@ module.exports = function(app) {
         res.json({ loggedIn });
       } else {
         //users_id = user._id
-        console.log(user)
+        // console.log(user)
         var results = {
           id: user._id,
           loggedIn: true,
@@ -91,23 +91,33 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/get-all", function(req, res) {
+    console.log("stuff")
+    db.Libbed.find().sort({ time: 'desc' }).then(function(response) {
+      // console.log(`response: ${response}`);
+      res.send(response);
+    }).catch(function(error) {
+      console.log(error)
+    })
+  });
+
 
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
     var users_id = req.body.id
-    // console.log(`data: ${data}`)
-       console.log('yoooo', req.body.id)
-       
+      // console.log(`data: ${data}`)
+      // console.log('yoooo', req.body.id)
+
 
     let newPlot = [];
     req.body.data.map((newPlotString) => {
       if (newPlotString.flag === true) {
-        if(newPlotString.newWord == undefined){
+        if (newPlotString.newWord == undefined) {
           newPlotString.newWord = "blank"
         }
-        if (newPlotString.newWord == "()"){
+        if (newPlotString.newWord == "()") {
           newPlotString.newWord = "(blank)"
-          
+
         }
         newPlotString.newWord = "(" + newPlotString.newWord + ")"
         newPlot.push(newPlotString.newWord)
@@ -116,21 +126,21 @@ module.exports = function(app) {
       }
     });
     console.log(newPlot)
-    //console.log(newPlot.toString().replace(/,/g, ' '))
+      //console.log(newPlot.toString().replace(/,/g, ' '))
     var newPlot1 = newPlot.toString();
     const newPlot2 = newPlot1.
     replace(/,/g, ' ');
     res.send(newPlot2)
-    // console.log(`new plot: ${newPlot2}`);
-    const plot = {user_id: users_id, libbedWords: req.body.data}
+      // console.log(`new plot: ${newPlot2}`);
+    const plot = { user_id: users_id, libbedWords: req.body.data }
 
     db.Libbed.create(plot).then((dataObj) => {
       console.log("this is data");
-      console.log(dataObj);
-    }).catch(function(error){
+      // console.log(dataObj);
+    }).catch(function(error) {
       console.log(error)
     })
-    
+
   });
   //link user to libbed database
 
