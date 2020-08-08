@@ -84,7 +84,9 @@ class Login extends Component {
     axios
       .post("/login", user)
       .then((response) => {
+        console.log(response)
           if (response.data.loggedIn === true){
+            localStorage.setItem('user_id', response.data.id)
             localStorage.setItem('loggedIn', true)
             this.setState({ loggedIn: true })
             window.location.reload();
