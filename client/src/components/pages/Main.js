@@ -11,6 +11,7 @@ class Main extends Component {
 
     componentDidMount() {
         axios.get("/get-all").then((response) => {
+            var myArr = []
             console.log(response.data)
             response.data.map(function (element) {
                 let libbedArr = [];
@@ -19,14 +20,12 @@ class Main extends Component {
                         element.word = element.newWord
                     }
                     libbedArr.push(element.word);
-                    // var libbedArr = libbedArr.toString();
-                    // const stateLibbed = libbedArr.replace(/,/g, ' ');
-                    // this.setState({ userLibbed: stateLibbed })
                 })
-                console.log(libbedArr)
-                this.setState({ userLibbed: libbedArr });
-                console.log(this.state.userLibbed);
+                libbedArr = libbedArr.toString().replace(/,/g, ' ');
+                myArr.push(libbedArr)
             })
+                this.setState({ userLibbed: myArr })
+                console.log(this.state.userLibbed)
         }).catch(function (error) {
             console.log(error)
         })
@@ -37,7 +36,7 @@ class Main extends Component {
             <div>
                 <LoginBar />
                 <h1>Checkout the most recent MovieLibs!</h1>
-                <Libs />
+                <Libs libbedArr={this.state.userLibbed}/>
             </div>
         );
 
