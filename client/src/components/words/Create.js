@@ -41,6 +41,9 @@ async componentDidMount() {
           key={index}
           movieKey={madObj.key}
           speech={madObj.partOfSpeech}
+          word={madObj.word}
+          punctuation={madObj.punctuation}
+          ending={madObj.ending}
           onchange={this.handleOnChange}
         />
       );

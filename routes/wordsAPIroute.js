@@ -1,4 +1,5 @@
 require("dotenv").config();
+const partTypes = [`noun`, `verb`, `adjective`];
 const axios = require("axios");
 const wordsKey = process.env.WORDS_KEY;
 const movieKey = process.env.OMDB_KEY;
@@ -20,11 +21,13 @@ function Word(word, key) {
 		(this.key = key),
 		(this.partOfSpeech = undefined),
 		(this.newWord = undefined),
-		(this.flag = undefined);
+    (this.flag = undefined),
+    (this.punctuation = undefined),
+    (this.ending = undefined)
 }
 module.exports = function (app) {
 	app.get("/get-movies", function (req, res) {
-		console.log("here");
+		// console.log("here");
 		const randomize = (array) => {
 			const random = Math.floor(Math.random() * array.length);
 			let selected = array[random];
@@ -43,7 +46,7 @@ module.exports = function (app) {
 				let plot = response.data.Plot;
 				console.log(plot);
 				if (plot) {
-					CheckWord(plot);
+          CheckWord(plot)
 				} else {
 					CheckWord(fightClub);
 				}
@@ -68,20 +71,30 @@ module.exports = function (app) {
 				i++;
 			});
 
-			movieDesc1.forEach((object) => {
-				console.log(object.word);
-			});
 
 			//setting a variable based on our movieDesc2 length
-			numberWords = movieDesc2.length;
+      numberWords = movieDesc2.length;
+      // console.log(movieDesc2)
 			//removing punctuation from movieDesc2
 			movieDesc2.forEach((object) => {
 				var newWord = object.word.replace(/[.,\/#!$%\^&\*;:{}=\-_~]/g, "");
 				//converting word to lower case
-				object.word = newWord;
+        object.word = newWord;
+        var wordEndings = [
+          `ing`,
+          `ly`,
+          `s`,
+          `ed`,
+          `y`
+        ]
+        wordEndings.forEach(element => {
+          if (object.word.endsWith(element)){
+            object.ending = element;
+          }
+        });
 				if (!object.word.includes("(" || ")" || `'`)) {
-					//checking if the word has a definition in our db
-					var x = object.word.toLowerCase();
+          //checking if the word has a definition in our db
+        	var x = object.word.toLowerCase();
 					db.Defined.find({ word: x }, (err, res) => {
 						// console.log(res);
 						//if there is a definiition in the db
@@ -99,7 +112,7 @@ module.exports = function (app) {
 							// console.log(res[0].partOfSpeech)
 							var newPart = res[0].partOfSpeech;
 							object.partOfSpeech = newPart;
-							increaseDefined();
+							increaseDefined(object.word);
 						}
 					});
 				} else {
@@ -117,8 +130,17 @@ module.exports = function (app) {
 		}
 
 		//function to increment defined words as this is needed to be used frequently throughout the app
-		function increaseDefined() {
-			definedWords++;
+		function increaseDefined(x) {
+      definedWords++;
+      // console.log(`words defined ${definedWords} of ${numberWords}`)
+      // console.log(x)
+      if (definedWords == numberWords-1){
+        movieDesc2.forEach(object => {
+          if (object.partOfSpeech == undefined){
+          console.log(`this fucking word ${object.word}`)
+          }
+        });
+      }
 			// console.log(definedWords, numberWords)
 			if (definedWords == numberWords) {
 				// console.log(`sweet all of the words are defined`)
@@ -134,12 +156,14 @@ module.exports = function (app) {
 			db.Defined.create(theUpdate)
 				.then(function (x) {
 					// console.log("We have updated the dictionary finally");
-					increaseDefined();
+					increaseDefined(newWord);
 				})
 				.catch(function (err) {
 					// console.log(err);
 				});
-		}
+    }
+    
+
 
 		//checking words against the words api
 		async function checkWordsApi(object) {
@@ -155,34 +179,88 @@ module.exports = function (app) {
 				},
 			})
 				.then((response) => {
-					const res = response.data;
+          const res = response.data;
+            if (res.definitions[0].partOfSpeech == null) {
+            return cantDefine(object)              
+          }
 					if (res) {
 						if (
 							res.word &&
 							res.definitions[0].definition &&
 							res.definitions[0].partOfSpeech
 						) {
-							var newPart = res.definitions[0].partOfSpeech;
-							object.partOfSpeech = newPart;
+              // console.log(res)
+              // console.log(`response length = ${res.definitions.length}`)
+              var wordNoun = 0;
+              var wordAdjective = 0;
+              var wordVerb = 0;
+              //counting the number of nouns, adjectives, and verbs in the response from the wordsAPI
+              res.definitions.forEach(object => {
+                partTypes.forEach(element => {
+                  if (object.partOfSpeech == element) {
+                    if (element == 'noun') {
+                      wordNoun++
+                    }
+                    if (element == 'verb'){
+                      wordVerb++
+                    }
+                    if (element == 'adjective'){
+                      wordAdjective++
+                    }
+                  }
+                });
+              });
+              var newPart = res.definitions[0].partOfSpeech;
+              
+              if (wordNoun > wordVerb && wordNoun > wordAdjective) {
+                newPart = 'noun'
+              }
+              else if (wordVerb > wordNoun && wordVerb > wordAdjective) {
+                newPart = 'verb'
+              }
+              else if (wordAdjective > wordNoun && wordAdjective > wordVerb){
+                newPart = 'adjective'
+              }
+              else {
+                newPart = 'undefined'
+              }
+              object.partOfSpeech = newPart;
+              console.log(`we have nouns ${wordNoun}, verbs ${wordVerb}, and adjectives ${wordAdjective}. we're going to go with this: ${object.partOfSpeech}`)
 							dictionaryUpdate(object);
-							// return console.log('sent word with API response to be updated');
+              // return console.log('sent word with API response to be updated');
+              
 						}
-					}
+          }
 				})
 				.catch((error) => {
-					cantDefine(object);
+          cantDefine(object);
+          
 					// return console.log(`${object.word} could not be defined`);
 				});
-		}
-
+    }
+    
 		//analasys of the object to start modifying it to flag nouns, verbs, and adjectives
 		function prepareMadlib() {
 			movieDesc2.forEach((object) => {
 				movieDesc1.forEach((o, i) => {
 					if (object.key == o.key) {
 						o.word = originalString[i];
-						o.partOfSpeech = object.partOfSpeech;
-						console.log(o.word);
+            o.partOfSpeech = object.partOfSpeech;
+            var punctuation = [
+              `'`,
+              `...`,
+              `,`,
+              `(`,
+              `)`,
+              `:`,
+              `;`
+            ]
+            punctuation.forEach(element => {
+              if (o.word.endsWith(element)){
+                o.punctuation = element;
+              }
+            });
+						// console.log(o.word);
 					}
 				});
 			});
@@ -208,7 +286,7 @@ module.exports = function (app) {
       }
 			movieDesc1.forEach((object) => {
         var selected = movieDesc1[Math.floor(Math.random()*movieDesc1.length)]
-        console.log(selected)
+        // console.log(selected)
 				if (countVerbs > 0 && selected.partOfSpeech == "verb") {
 					selected.flag = true;
 					countVerbs--;
@@ -228,5 +306,8 @@ module.exports = function (app) {
 			  return res.send(movieDesc1);
 			}
 		}
-	});
+  });
+  
+  
+
 };
