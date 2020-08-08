@@ -21,7 +21,7 @@ var app = express();
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
 mongoose.connect(MONGODB_URI);
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(__dirname + "/client/build"));
+  app.use(express.static("./client/build"));
   app.get("/*", function(req, res) {
     res.sendFile(__dirname + "/client/build")
   });
