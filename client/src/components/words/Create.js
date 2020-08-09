@@ -36,12 +36,16 @@ async componentDidMount() {
     });
 
     return filteredArr.map((madObj, index) => {
-      return (<
-        Input key={index}
-        movieKey={madObj.key}
-        speech={madObj.partOfSpeech}
-        onchange={this.handleOnChange}
-      />
+      return (
+        <Input
+          key={index}
+          movieKey={madObj.key}
+          speech={madObj.partOfSpeech}
+          word={madObj.word}
+          punctuation={madObj.punctuation}
+          ending={madObj.ending}
+          onchange={this.handleOnChange}
+        />
       );
     });
   }

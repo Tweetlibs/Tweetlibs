@@ -120,7 +120,13 @@ const ignoreList =  [
 "your",
 "yours",
 "yourself",
-"yourselves"
+"yourselves",
+"high",
+"team",
+"in",
+"having",
+"to",
+"too"
 ]
 
 module.exports = ignoreList;
