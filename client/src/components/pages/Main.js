@@ -4,6 +4,7 @@ import Libs from '../libs/Libs'
 import Login from '../pages/Login';
 import Navbar from '../Navbar'
 import axios from 'axios';
+import { Button } from 'react-bootstrap'
 
 class Main extends Component {
 
@@ -39,6 +40,7 @@ class Main extends Component {
                 <Navbar />
                 <h1>Checkout the most recent MovieLibs!</h1>
                 <Libs libbedArr={this.state.userLibbed} />
+                <Button variant="success">Create your own MovieLib!</Button>
             </div>
         );
 

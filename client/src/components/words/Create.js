@@ -12,13 +12,13 @@ class Create extends React.Component {
     libbed: ""
   };
 
-async componentDidMount() {
-  console.log('hi')
+  async componentDidMount() {
+    // console.log('hi')
     axios.get("/get-movies").then((response) => {
-      console.log('brooke is stinky', response.data)
+      console.log(response.data)
       this.setState({ data: response.data });
       this.displayFields()
-    }).catch(function(error){
+    }).catch(function (error) {
       console.log(error)
     })
   }
@@ -27,7 +27,7 @@ async componentDidMount() {
     this.setState({ show: false })
   }
   handleShow = () => {
-    this.setState({ show : true })
+    this.setState({ show: true })
   }
 
   displayFields() {
