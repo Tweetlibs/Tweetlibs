@@ -15,19 +15,19 @@ var PORT = process.env.PORT || 3001;
 var app = express();
 
 //connecting to our mongo db
-// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
-// mongoose.connect(MONGODB_URI);
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
+mongoose.connect(MONGODB_URI);
 
 //connecting to our mongo db
-const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
-mongoose.connect(MONGODB_URI);
-if (process.env.NODE_ENV === "production") {
-app.use(express.static(path.join(__dirname, '/client/build')))
-// Anything that doesn't match the above, send back index.html
-app.get('*', (req, res) => {
-res.sendFile(path.join(__dirname + '/client/build/index.html'))
-})
-}
+// const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
+// mongoose.connect(MONGODB_URI);
+// if (process.env.NODE_ENV === "production") {
+// app.use(express.static(path.join(__dirname, '/client/build')))
+// // Anything that doesn't match the above, send back index.html
+// app.get('*', (req, res) => {
+// res.sendFile(path.join(__dirname + '/client/build/index.html'))
+// })
+// }
 
 //parser
 app.use(express.urlencoded({ extended: true }));
@@ -59,6 +59,6 @@ require("./routes/wordsAPIroute")(app);
 app.use(express.static("public"));
 
 //starting server
-app.listen(PORT, function () {
+app.listen(PORT, function() {
   console.log(`Express is running on port ${PORT}`);
 });
