@@ -10,7 +10,7 @@ const movieKey = process.env.OMDB_KEY;
 const wordsKey = process.env.WORDS_KEY;
 var words = require("../WordsApi/WordsApi.js");
 
-module.exports = function (app) {
+module.exports = function(app) {
   //handle register
   app.post("/register", (req, res) => {
     const errors = [];
@@ -31,7 +31,7 @@ module.exports = function (app) {
     if (errors.length > 0) {
       res.json({ errors: errors });
     } else {
-      db.Users.findOne({ email: email }).then(function (user) {
+      db.Users.findOne({ email: email }).then(function(user) {
         if (user) {
           res.json({ msg: "Email is already registered" });
         } else {
@@ -41,8 +41,8 @@ module.exports = function (app) {
             email: email,
             password: password2,
           };
-          bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
+          bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(newUser.password, salt, function(err, hash) {
               if (err) throw err;
 
               newUser.password = hash;
@@ -54,7 +54,7 @@ module.exports = function (app) {
                 password: hash,
               })
 
-                .then(function (response) {
+              .then(function(response) {
                   res.json({ msg: "New account created. You may now log in!" });
                 })
                 .catch((err) => console.log(err));
@@ -85,18 +85,18 @@ module.exports = function (app) {
   });
 
   // logout handle
-  app.get("/logout", function (req, res) {
-    req.session.destroy(function (err) {
+  app.get("/logout", function(req, res) {
+    req.session.destroy(function(err) {
       console.log("logout error", err);
     });
   });
 
-  app.get("/get-all", function (req, res) {
-    console.log("stuff")
-    db.Libbed.find().sort({ time: 'desc' }).then(function (response) {
-      // console.log(`response: ${response}`);
+  app.get("/get-all", function(req, res) {
+    // console.log("stuff")
+    db.Libbed.find().limit(20).sort({ time: 'desc' }).then(function(response) {
+      console.log(`response: ${response}`);
       res.send(response);
-    }).catch(function (error) {
+    }).catch(function(error) {
       console.log(error)
     })
   });
@@ -105,8 +105,8 @@ module.exports = function (app) {
   app.post("/new-words", (req, res) => {
     const { data } = req.body;
     var users_id = req.body.id
-    // console.log(`data: ${data}`)
-    // console.log('yoooo', req.body.id)
+      // console.log(`data: ${data}`)
+      // console.log('yoooo', req.body.id)
 
 
     let newPlot = [];
@@ -126,18 +126,18 @@ module.exports = function (app) {
       }
     });
     console.log(newPlot)
-    //console.log(newPlot.toString().replace(/,/g, ' '))
+      //console.log(newPlot.toString().replace(/,/g, ' '))
     var newPlot1 = newPlot.toString();
     const newPlot2 = newPlot1.
-      replace(/,/g, ' ');
+    replace(/,/g, ' ');
     res.send(newPlot2)
-    // console.log(`new plot: ${newPlot2}`);
+      // console.log(`new plot: ${newPlot2}`);
     const plot = { user_id: users_id, libbedWords: req.body.data }
 
     db.Libbed.create(plot).then((dataObj) => {
       console.log("this is data");
       // console.log(dataObj);
-    }).catch(function (error) {
+    }).catch(function(error) {
       console.log(error)
     })
 

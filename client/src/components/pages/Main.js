@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Libs from '../libs/Libs'
-import LoginBar from '../LoginBar'
+// import LoginBar from '../LoginBar'
+import Login from '../pages/Login';
+import Navbar from '../Navbar'
 import axios from 'axios';
+import { Button } from 'react-bootstrap'
 
 class Main extends Component {
 
@@ -24,8 +27,8 @@ class Main extends Component {
                 libbedArr = libbedArr.toString().replace(/,/g, ' ');
                 myArr.push(libbedArr)
             })
-                this.setState({ userLibbed: myArr })
-                console.log(this.state.userLibbed)
+            this.setState({ userLibbed: myArr })
+            console.log(this.state.userLibbed)
         }).catch(function (error) {
             console.log(error)
         })
@@ -34,9 +37,10 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <LoginBar />
+                <Navbar />
                 <h1>Checkout the most recent MovieLibs!</h1>
-                <Libs libbedArr={this.state.userLibbed}/>
+                <Libs libbedArr={this.state.userLibbed} />
+                <Button variant="success">Create your own MovieLib!</Button>
             </div>
         );
 
