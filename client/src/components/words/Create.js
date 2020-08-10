@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Redirect } from 'react-router-dom'
 import Input from "./Input";
 import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 import Example from '../Modal';
@@ -9,7 +10,8 @@ class Create extends React.Component {
     data: [],
     user_id: localStorage.getItem('user_id'),
     show: false,
-    libbed: ""
+    libbed: "",
+    redirect: false
   };
 
   async componentDidMount() {
@@ -26,6 +28,23 @@ class Create extends React.Component {
   handleClose = () => {
     this.setState({ show: false })
   }
+
+  refreshPage = () => {
+    window.location.reload(false);
+  }
+
+  redirectPage = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />
+    }
+  }
+
   handleShow = () => {
     this.setState({ show: true })
   }
@@ -45,6 +64,8 @@ class Create extends React.Component {
           punctuation={madObj.punctuation}
           ending={madObj.ending}
           onchange={this.handleOnChange}
+          redirect={this.redirectPage}
+          renderRedirect={this.renderRedirect}
         />
       );
     });
@@ -82,7 +103,13 @@ class Create extends React.Component {
   render() {
     return (
       <div>
-        <Example show={this.handleShow} close={this.handleClose} state={this.state.show} libbed={this.state.libbed} />
+        <Example
+          show={this.handleShow}
+          close={this.handleClose}
+          state={this.state.show}
+          libbed={this.state.libbed}
+          reload={this.refreshPage}
+        />
         <h2>Fill in the fields, click submit and watch the magic happen!</h2>
         {this.displayFields()}
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
