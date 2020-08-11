@@ -12,10 +12,11 @@ class Main extends Component {
         userLibbed: []
     }
 
+
     componentDidMount() {
         axios.get("/get-all").then((response) => {
             var myArr = []
-            console.log(response.data)
+            console.log('response', response.data)
             response.data.map(function (element) {
                 let libbedArr = [];
                 element.libbedWords.forEach(function (element) {
