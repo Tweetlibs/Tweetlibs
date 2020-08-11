@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
-import { Redirect } from 'react-router-dom'
 import Input from "./Input";
 import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 import Example from '../Modal';
+import { useHistory } from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 
 class Create extends React.Component {
   state = {
@@ -11,8 +12,10 @@ class Create extends React.Component {
     user_id: localStorage.getItem('user_id'),
     show: false,
     libbed: "",
-    redirect: false
+    // redirect: false
   };
+
+
 
   async componentDidMount() {
     // console.log('hi')
@@ -29,21 +32,26 @@ class Create extends React.Component {
     this.setState({ show: false })
   }
 
+  handleRedirect = () => {
+    let history = this.props.history;
+    history.replace('/');
+  }
+
   refreshPage = () => {
     window.location.reload(false);
   }
 
-  redirectPage = () => {
-    this.setState({
-      redirect: true
-    })
-  }
+  // redirectPage = () => {
+  //   this.setState({
+  //     redirect: true
+  //   })
+  // }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/' />
-    }
-  }
+  // renderRedirect = () => {
+  //   if (this.state.redirect) {
+  //     return <Redirect to='/' />
+  //   }
+  // }
 
   handleShow = () => {
     this.setState({ show: true })
@@ -65,7 +73,7 @@ class Create extends React.Component {
           ending={madObj.ending}
           onchange={this.handleOnChange}
           redirect={this.redirectPage}
-          renderRedirect={this.renderRedirect}
+          renderRedirect={this.handleRedirect}
         />
       );
     });
@@ -108,6 +116,7 @@ class Create extends React.Component {
           close={this.handleClose}
           state={this.state.show}
           libbed={this.state.libbed}
+          redirect={this.handleRedirect}
           reload={this.refreshPage}
         />
         <h2>Fill in the fields, click submit and watch the magic happen!</h2>
@@ -118,4 +127,5 @@ class Create extends React.Component {
   }
 }
 
-export default Create;
+//export default Create;
+export default withRouter(Create);
