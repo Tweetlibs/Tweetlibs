@@ -201,7 +201,7 @@ class Login extends Component {
     );
     }else{
         return (
-        <Redirect from="/login" to="/dashboard"/>
+        <Redirect from="/login" to="/create"/>
         )
     }
   }
