@@ -101,6 +101,7 @@ class Create extends React.Component {
   };
 
   render() {
+    if (localStorage.getItem('loggedIn') === "true"){
     return (
       <div>
         <Example
@@ -115,6 +116,11 @@ class Create extends React.Component {
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
       </div>
     );
+    }else{
+      return (
+      <Redirect from="/create" to="/login"/> 
+      )
+    }
   }
 }
 
