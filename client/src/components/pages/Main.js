@@ -44,7 +44,6 @@ class Main extends Component {
                 <Button variant="success">Create your own MovieLib!</Button>
             </div>
         );
-
     }
 };
 
