@@ -3,8 +3,7 @@ import axios from "axios";
 import Input from "./Input";
 import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 import Example from '../Modal';
-import { useHistory } from 'react-router-dom'
-import { withRouter } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 class Create extends React.Component {
   state = {
