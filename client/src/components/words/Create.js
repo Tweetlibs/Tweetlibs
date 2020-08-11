@@ -41,18 +41,6 @@ class Create extends React.Component {
     window.location.reload(false);
   }
 
-  // redirectPage = () => {
-  //   this.setState({
-  //     redirect: true
-  //   })
-  // }
-
-  // renderRedirect = () => {
-  //   if (this.state.redirect) {
-  //     return <Redirect to='/' />
-  //   }
-  // }
-
   handleShow = () => {
     this.setState({ show: true })
   }
@@ -123,9 +111,8 @@ class Create extends React.Component {
         {this.displayFields()}
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
       </div>
-    );
+    )
   }
 }
 
-//export default Create;
-export default withRouter(Create);
+export default Create;
