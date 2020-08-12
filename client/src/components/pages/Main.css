@@ -1,0 +1,11 @@
+.ml-title {
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(0, 123, 255);
+    padding-top: .5em;
+    padding-bottom: .5em;
+}

@@ -4,6 +4,7 @@ import Input from "./Input";
 import { Col, Row, Form, Button, Container, Tabs, Tab, Card, Nav, Jumbotron, } from "react-bootstrap";
 import Example from '../Modal';
 import { Redirect } from 'react-router-dom';
+import styles from './Create.css';
 
 class Create extends React.Component {
   state = {
@@ -106,7 +107,7 @@ class Create extends React.Component {
           redirect={this.handleRedirect}
           reload={this.refreshPage}
         />
-        <h2>Fill in the fields, click submit and watch the magic happen!</h2>
+        <h2 className='create-title'>Fill in the fields, click submit and watch the magic happen!</h2>
         {this.displayFields()}
         <Button variant="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
       </div>
