@@ -18,10 +18,10 @@ class Navbar extends Component {
             <>
                 <Nav className="justify-content-end" activeKey="/home">
                     <Nav.Item>
-                        <Nav.Link href="/create"><Button variant="success">Create MovieLib</Button>{' '}</Nav.Link>
+                        <Nav.Link href="/create"><Button variant="primary">Create MovieLib</Button>{' '}</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/login"><Button variant="primary">Login</Button>{' '}</Nav.Link>
+                        <Nav.Link href="/login"><Button variant="info">Login</Button>{' '}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </>
@@ -31,7 +31,7 @@ class Navbar extends Component {
                 <>
                 <Nav className="justify-content-end" activeKey="/home">
                     <Nav.Item>
-                        <Nav.Link href="/create"><Button variant="success">Create MovieLib</Button>{' '}</Nav.Link>
+                        <Nav.Link href="/create"><Button variant="primary">Create MovieLib</Button>{' '}</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                     <Nav.Link href="/login"><Button variant="danger" onClick={() => { this.handleLogout() }}>Logout</Button></Nav.Link>
