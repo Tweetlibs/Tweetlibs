@@ -21,7 +21,6 @@ class Create extends React.Component {
     axios.get("/get-movies").then((response) => {
       console.log(response.data)
       this.setState({ data: response.data });
-      this.displayFields()
     }).catch(function (error) {
       console.log(error)
     })
