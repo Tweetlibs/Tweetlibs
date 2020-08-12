@@ -16,12 +16,11 @@ class Create extends React.Component {
 
 
 
-  async componentDidMount() {
+  componentDidMount = () => {
     // console.log('hi')
     axios.get("/get-movies").then((response) => {
       console.log(response.data)
       this.setState({ data: response.data });
-      this.displayFields()
     }).catch(function (error) {
       console.log(error)
     })
