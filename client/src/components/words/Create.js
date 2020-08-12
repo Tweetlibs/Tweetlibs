@@ -16,7 +16,7 @@ class Create extends React.Component {
 
 
 
-  async componentDidMount() {
+  componentDidMount = () => {
     // console.log('hi')
     axios.get("/get-movies").then((response) => {
       console.log(response.data)
