@@ -1,4 +1,5 @@
 <div align="center"><h1>Movie Libs</h1></div>
+
 MovieLibs is a fun application for creating and Madlibs made from movie descriptions. Once created these can be shared to the main MovieLibs page, or discarded.
 
 ## Table of Contents
@@ -30,12 +31,12 @@ After word selection takes place the movie description is sent to the React fron
 Movie Libs is powered by React.
 
 ## Back End Technologies ##
-Node
-bCrypt
-Passport
-MongoDB
-WordsApi
-OMDB API
+Node<br>
+bCrypt<br>
+Passport<br>
+MongoDB<br>
+WordsApi<br>
+OMDB API<br>
 
 
 ## Authors ##
