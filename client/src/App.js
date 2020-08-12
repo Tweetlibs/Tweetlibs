@@ -5,6 +5,7 @@ import Dashboard from './components/pages/Dashboard';
 import './App.css';
 import Create from './components/words/Create';
 import Main from './components/pages/Main';
+//import { withRouter } from "react-router-dom";
 
 //importing bootstrap elements
 import Container from 'react-bootstrap/Container';
@@ -25,3 +26,4 @@ function App() {
 }
 
 export default App;
+

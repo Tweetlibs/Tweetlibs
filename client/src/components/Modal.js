@@ -1,7 +1,9 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 function Example(props) {
+
   if (props.state === true) {
     return (
       <Modal show={props.state} onClose={props.close}>
@@ -13,7 +15,6 @@ function Example(props) {
           <Button variant="secondary" onClick={props.close, props.reload}>
             Close
             </Button>
-          {props.renderRedirect}
           <Button variant="primary" onClick={props.close, props.redirect}>
             Save Changes
             </Button>
