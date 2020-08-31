@@ -11,6 +11,9 @@ class Navbar extends Component {
         })
       .catch((error) => {console.log(error)})
     }
+
+    
+
     render() {
         console.log()
         if (localStorage.getItem('loggedIn') === 'false'){
@@ -32,6 +35,9 @@ class Navbar extends Component {
                 <Nav className="justify-content-end" activeKey="/home">
                     <Nav.Item>
                         <Nav.Link href="/create"><Button variant="primary">Create MovieLib</Button>{' '}</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="/user-page"><Button variant="primary">See My Movielibs</Button>{' '}</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                     <Nav.Link href="/login"><Button variant="danger" onClick={() => { this.handleLogout() }}>Logout</Button></Nav.Link>

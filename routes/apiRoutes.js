@@ -92,9 +92,19 @@ module.exports = function(app) {
   });
 
   app.get("/get-all", function(req, res) {
-    // console.log("stuff")
+    console.log("stuff")
     db.Libbed.find().limit(20).sort({ time: 'desc' }).then(function(response) {
       console.log(`response: ${response}`);
+      res.send(response);
+    }).catch(function(error) {
+      console.log(error)
+    })
+  });
+
+    // specific user route
+  app.get("/get-user/:id", function(req, res) {
+    db.Libbed.find({ user_id:'5f30826a194d014e226a52a6' }).limit(20).sort({ time: 'desc' }).then(function(response) {
+      console.log(`user response: ${response}`);
       res.send(response);
     }).catch(function(error) {
       console.log(error)
@@ -135,7 +145,7 @@ module.exports = function(app) {
     const plot = { user_id: users_id, libbedWords: req.body.data }
 
     db.Libbed.create(plot).then((dataObj) => {
-      console.log("this is data");
+      // console.log("this is data");
       // console.log(dataObj);
     }).catch(function(error) {
       console.log(error)
