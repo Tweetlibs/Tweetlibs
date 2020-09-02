@@ -90,7 +90,7 @@ module.exports = function (app) {
 				if (!object.word.includes("(" || ")" || `'`)) {
 					//checking if the word has a definition in our db
 					var x = object.word.toLowerCase();
-					db.Defined.find({ word: x }, (err, res) => {
+					db.Contextual.find({ word: x }, (err, res) => {
 						// console.log(res);
 						//if there is a definiition in the db
 						if (res.length < 1) {
@@ -141,7 +141,7 @@ module.exports = function (app) {
 			theUpdate = x;
 			newWord = theUpdate.word.toLowerCase();
 			theUpdate.word = newWord;
-			db.Defined.create(theUpdate)
+			db.Contextual.create(theUpdate)
 				.then(function (x) {
 					// console.log("We have updated the dictionary finally");
 					increaseDefined(newWord);
