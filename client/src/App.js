@@ -5,6 +5,7 @@ import Dashboard from './components/pages/Dashboard';
 import './App.css';
 import Create from './components/words/Create';
 import Main from './components/pages/Main';
+import UserPage from './components/pages/UserPage';
 //import { withRouter } from "react-router-dom";
 
 //importing bootstrap elements
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/create" component={Create} />
+        <Route path="/user-page" component={UserPage} />
       </Container>
     </Router>
   );

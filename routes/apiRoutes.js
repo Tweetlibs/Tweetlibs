@@ -103,9 +103,9 @@ module.exports = function(app) {
 
     // specific user route
   app.get("/get-user/:id", function(req, res) {
-    db.Libbed.find({ user_id:'5f30826a194d014e226a52a6' }).limit(20).sort({ time: 'desc' }).then(function(response) {
+    db.Libbed.find({ user_id: req.params.id }).limit(20).sort({ time: 'desc' }).then(function(response) {
       console.log(`user response: ${response}`);
-      res.send(response);
+      res.json(response);
     }).catch(function(error) {
       console.log(error)
     })

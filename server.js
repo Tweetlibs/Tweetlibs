@@ -15,12 +15,12 @@ var PORT = process.env.PORT || 3001;
 var app = express();
 
 //connecting to our mongo db
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
-mongoose.connect(MONGODB_URI);
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tweetlibs";
+// mongoose.connect(MONGODB_URI);
 
 // connecting to our mongo db
-// const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
-// mongoose.connect(MONGODB_URI);
+const MONGODB_URI = process.env.MONGODB_URI || `mongodb://${USER}:${PASS}@ds155727.mlab.com:55727/heroku_tx9s8ksw`;
+mongoose.connect(MONGODB_URI);
 
 //parser
 app.use(express.urlencoded({ extended: true }));
