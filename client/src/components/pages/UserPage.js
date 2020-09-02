@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import Libs from '../libs/Libs'
-// import LoginBar from '../LoginBar'
 import Login from '../pages/Login';
 import Navbar from '../Navbar'
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import styles from './Main.css';
 
-class Main extends Component {
+class UserPage extends Component {
 
     state = {
         userLibbed: []
     }
 
-
     componentDidMount() {
-        axios.get("/get-all").then((response) => {
+
+        let userId = localStorage.getItem('user_id')
+
+        axios.get(`/get-user/${userId}`).then((response) => {
             var myArr = []
             console.log('response', response.data)
             response.data.map(function (element) {
@@ -40,12 +41,11 @@ class Main extends Component {
         return (
             <div>
                 <Navbar />
-                <h1 className='ml-title'>Check out the most recent MovieLibs!</h1>
+                <h1 className='ml-title'>Check out your MovieLibs!</h1>
                 <Libs libbedArr={this.state.userLibbed} />
-                <Button variant="primary">Create your own MovieLib!</Button>
             </div>
         );
     }
 };
 
-export default Main;
+export default UserPage;
