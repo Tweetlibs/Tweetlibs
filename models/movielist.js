@@ -1287,7 +1287,6 @@ module.exports = [
 	"The Rhythm Section",
 	"The Right Stuff",
 	"The Road to El Dorado",
-	"The Rock",
 	"The Rocketeer",
 	"The Rum Diary",
 	"The Running Man",

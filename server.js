@@ -45,7 +45,7 @@ app.use(
 //routes
 require("./routes/apiRoutes.js")(app);
 require("./routes/htmlRoutes.js")(app);
-require("./routes/wordsAPIroute")(app);
+require("./routes/wordsAPIroute_rev2")(app);
 
 if (process.env.NODE_ENV === "production") {
 app.use(express.static(path.join(__dirname, '/client/build')))
