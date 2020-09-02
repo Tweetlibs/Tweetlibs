@@ -43,7 +43,7 @@ module.exports = function (app) {
 
 		axios
 			.get(
-				`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=short`
+				`http://www.omdbapi.com/?apikey=${movieKey}&t=${movieTitle}&plot=long`
 			)
 			.then((response) => {
 				let plot = response.data.Plot;
